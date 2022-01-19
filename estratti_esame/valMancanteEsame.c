@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//dato un n da input, inserire n zeri e uni da input in disordine. l'output dovrà essere solo di zeri a sinistra e uni a destra.
+//dato un n da input, inserire in ordine crescente n numeri tranne uno, l'algoritmo dovrà trovare il valore mancante
 int main(void){
     int n;
     scanf("%d",&n);
@@ -8,7 +8,7 @@ int main(void){
     int mancante = 0;
     int k = 0;
     int z = 0;
-    //popolo l'array con zeri e uni
+    //popolo l'array da standard input
     for(int i = 0;i < n; i++){
         scanf("%d",&a[i]);
     }
