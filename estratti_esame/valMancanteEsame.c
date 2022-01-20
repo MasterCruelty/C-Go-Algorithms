@@ -1,47 +1,24 @@
 #include <stdio.h>
-#include <stdlib.h>
-//dato un n da input, inserire in ordine crescente n numeri tranne uno, l'algoritmo dovrà trovare il valore mancante
+
+//dato un numero n, inserisco da zero a n una sequenza ordinata di interi tranne uno. Il programma deve stampare il valore mancante.
 int main(void){
     int n;
+    int temp;
+    int cont = 0;
+    int prev = -1;
+    int mancante = -1;
+    printf("inserire la quantità n di numeri da inserire nell'insieme ordinato {0,1,2,...,n}: ");
     scanf("%d",&n);
-    int a[n];
-    int mancante = 0;
-    int k = 0;
-    int z = 0;
-    //popolo l'array da standard input
-    for(int i = 0;i < n; i++){
-        scanf("%d",&a[i]);
-    }
-    int sx = 0;
-    int dx = n -1;
-    //caso in cui il numero n è dispari
-    if(n % 2 != 0){
-	while(abs(a[sx] - a[dx]) % 2 != 0){
-            sx++;
-            dx--;
+    //finchè non inserico n numeri continuo a leggerli
+    while(cont < n && scanf("%d",&temp)){
+	//a ogni inserimento controllo se la differenza con il precedente è diversa da uno, in quel caso in mezzo c'è il valore mancante.
+        if((temp - prev) != 1){
+            mancante = temp -1;
+	    break;
 	}
-        mancante = a[dx] + 1;
+	prev = temp;
+	cont++;
     }
-    //TODO questo caso
-    if(n % 2 == 0){
-	while(k <= 1 || z <= 1){
-	    if(abs(a[sx] - a[dx]) % 2 == 0){
-		k++;
-		dx--;
-		continue;
-            }
-	    if(abs(a[sx] - a[dx]) % 2 != 0){
-		z++;
-		dx--;
-		continue;
-            }
-	    k = 0;
-	    z = 0;
-            //sx++;
-            dx--;
-	}
-	mancante = a[dx] + 3;
-    }
-    printf("%d\n",mancante);
+    printf("Il valore mancante è: %d\n",mancante);
     return 0;
 }
