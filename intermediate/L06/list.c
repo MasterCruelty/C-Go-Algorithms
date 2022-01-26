@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 //definizione di un nodo come struttura
@@ -32,6 +33,47 @@ int main(){
     printf("Lista con list_insert(Node l):\n");
     list_print(first);
 
+    printf("Procedo a cercare il nodo con 10\n");
+    l = list_search(10,first);
+    if(l != NULL) 
+	printf("Ho trovato il nodo contenente 10\n");
+    else
+	printf("Non ho trovato il nodo contenente 10\n");
+    
+    printf("Procedo a eliminare il nodo con 10\n");
+    list_delete(10,first);
+    printf("Procedo a cercare nuovamente il nodo con 10\n");
+    l = list_search(10,first);
+    if(l != NULL) 
+	printf("Ho trovato il nodo contenente 10\n");
+    else
+	printf("Non ho trovato il nodo contenente 10\n");
+    
+    printf("Faccio la print ricorsivamente della lista invertita\n");
+    list_printInv(first);
+    printf("\nStampa normale ma senza il nodo 10\n");
+    list_print(first);
+
+
+    printf("Distruggo la lista\n");
+    list_destroy(first);
+    first = NULL; //riporto inizializzato a null il primo nodo della lista(che ora non esiste più)
+    //creo un'altra lista con 4 nodi
+    list_insert(10,&first);
+    list_insert(5,&first);
+    list_insert(3,&first);
+    list_insert(2,&first);
+    printf("Nuova lista:\n");
+    list_print(first);
+
+    Node l2 = olist_insert(7,first); // inserimento in lista ordinata di 7
+    printf("Ho inserito 7 in una lista già ordinata e il risultato è:\n");
+    list_print(first);
+    printf("Procedo a cercare 3,7,12 nella lista ordinata\n");
+    l2 = olist_search(3,first);
+    l2 = olist_search(7,first);
+    l2 = olist_search(12,first);
+    list_destroy(first);
     return 0;
 }
 
@@ -39,7 +81,7 @@ int main(){
 void list_print(Node l){
     Node p;
     int n = 1;
-    for(p=1;p!=NULL;p = p -> next){
+    for(p=l;p!=NULL;p = p -> next){
 	printf("--> %d ", p -> info);
 	if(n == 20)
 	    break;
@@ -53,7 +95,7 @@ void list_insert(int n,Node *l){
     Node new = malloc(sizeof(struct node));
     new -> info = n;
     new -> next = *l;
-    *l -> new;
+    *l = new;
 }
 
 //ricerca di un elemento in una lista
@@ -115,7 +157,7 @@ void list_destroy(Node l){
 Node olist_insert(int n, struct node *l) {
     struct node *curr, *prev;
     for(curr = l, prev = NULL; curr != NULL; prev = curr, curr = curr -> next){
-	if(curr -> info > n){
+	if(curr -> info >= n){
 	    printf("curr -> info: %d\nInserisco quindi %d\n",curr -> info,n);
 	    Node new = malloc(sizeof(struct node));
 	    new -> info = n;
@@ -127,9 +169,9 @@ Node olist_insert(int n, struct node *l) {
 	    printf("curr -> info: %d\n",curr -> info);
 	}
 	if(curr == NULL)
-	    return;
+	    break;
 	if(prev == NULL)
-	    l = l -> next
+	    l = l -> next;
     }
 }
 
