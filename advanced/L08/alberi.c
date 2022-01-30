@@ -21,6 +21,8 @@ void bit_postorder(Bit_node p,int j);
 Bit_node bit_arr2tree(Item a[], int size,int j);
 void bit_printnode(Bit_node p,int j);
 
+//Item bist_search_it(Bit_node p,int k);
+
 int main(void){
     int tree[N];
     int i;
@@ -117,3 +119,14 @@ void bit_printnode(Bit_node p, int j){
 	printf("  ");
     printf("*%d \n",p -> item);
 }
+
+/*
+Item bist_search_it(Bit_node p,int k){
+    int res;
+    while(p &&(res= cmp(k,key(p->item))) != 0)
+	p = res < 0 ? p -> : p -> r;
+    if(p == NULL)
+	return NULLitem;
+    else
+	return p -> item;
+}*/
