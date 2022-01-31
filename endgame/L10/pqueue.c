@@ -9,10 +9,6 @@ struct pqueue{
 };
 
 
-int main(void){
-    return 0;
-}
-
 //creazione coda di n item
 Pqueue pqueue_new(int n){
     Pqueue pq = malloc(sizeof(Pqueue));
@@ -96,4 +92,30 @@ void swap(Heap h,int i,int j){
     temp = h[i];
     h[i] = h[j];
     h[j] = temp;
+}
+
+void heap_printassummary(Pqueue pq, int i){
+    if(i < pq -> cont){
+	heap_printnode(pq->h,i);
+	if(2*i <= pq -> cont || (2*i)+1 <= pq -> cont){
+	    heap_printassummary(pq,2*i);
+	    heap_printassummary(pq,(2*i)+1);
+	}	
+    }
+    else{
+	for(int j = 0;j < i; j++)
+	    printf(" ");
+	printf("*X\n");
+    }
+}
+
+void heap_printnode(Heap h,int j){
+    for(int i = 1; i < j;i++)
+	printf("  ");
+    printf("*%d \n",h[j]);
+}
+
+void heap_printarray(Pqueue pq,int i){
+    for(int j = 0; j < i + 2; j++)
+	printf("|%d|",pq -> h[j]);
 }

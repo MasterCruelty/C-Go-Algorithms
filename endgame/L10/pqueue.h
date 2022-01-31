@@ -19,5 +19,8 @@ void heapify_down(Heap h,int i,int n);
 
 int father(int i);
 void swap(Heap h,int i,int j);
+void heap_printassummary(Pqueue pq,int i);
+void heap_printnode(Heap h, int j);
+void heap_printarray(Pqueue pq, int i);
 
 #endif
