@@ -14,13 +14,17 @@ struct bit_node{
 };
 
 //prototipi funzioni per la gestione di un albero
-Bit_node bit_new(Item item);
 void bit_inorder(Bit_node p,int j);
 void bit_postorder(Bit_node p,int j);
 void bit_preorder(Bit_node p,int j);
 void bit_printassummary(Bit_node p,int j);
-Bit_node bit_arr2tree(Item a[], int size,int j);
 void bit_printnode(Bit_node p,int j);
+void bit_destroy(Bit_node p);
+Bit_node bit_new(Item item);
+Bit_node bit_arr2tree(Item a[], int size,int j);
+Bit_node bit_left(Bit_node p);
+Bit_node bit_right(Bit_node p);
+Item bit_item(Bit_node p);
 
 //Item bist_search_it(Bit_node p,int k);
 
@@ -66,6 +70,27 @@ Bit_node bit_new(Item item){
     root -> l = malloc(sizeof(struct bit_node));
     root -> r = malloc(sizeof(struct bit_node));
     return root;
+}
+
+//Elimina il nodo p dall'albero e di conseguenza anche i suoi figli(?)
+void bit_destroy(Bit_node p){
+	free(p -> l);
+	free(p -> r);
+	free(p);
+}
+
+//Restituisce il valore associato al nodo p
+Item bit_item(Bit_node p){
+    return p -> item;
+}
+//Restituisce il figlio sinistro
+Bit_node bit_left(Bit_node p){
+    return p -> l;	
+}
+
+//Restituisce il figlio destro
+Bit_node bit_right(Bit_node p){
+    return p -> r;	
 }
 
 //visita dell'albero in inorder(prima il sottoalbero di sx, poi la radice, infine il sottoalbero di dx)
