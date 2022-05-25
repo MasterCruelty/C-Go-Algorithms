@@ -16,8 +16,9 @@ struct bit_node{
 //prototipi funzioni per la gestione di un albero
 Bit_node bit_new(Item item);
 void bit_inorder(Bit_node p,int j);
-void bit_printassummary(Bit_node p,int j);
 void bit_postorder(Bit_node p,int j);
+void bit_preorder(Bit_node p,int j);
+void bit_printassummary(Bit_node p,int j);
 Bit_node bit_arr2tree(Item a[], int size,int j);
 void bit_printnode(Bit_node p,int j);
 
@@ -45,6 +46,9 @@ int main(void){
 
 
 //conversione da array ad albero
+//la radice è contenuta in a[0]
+//il figlio sinistro è a[2*i+1]
+//il figlio destro è a[2*i+2]
 Bit_node bit_arr2tree(Item a[], int size,int j){
     if(j >= size|| a[j] == -1){
 	return NULL;
@@ -78,6 +82,23 @@ void bit_inorder(Bit_node p,int j){
 	    printf("  ");
 	printf("*X\n");
     }
+}
+
+//visita dell'albero in ordine anticipato(prima la radice, poi sottoalbero sx e poi sottoalbero dx)
+void bit_preorder(Bit_node p,int j){
+    if(p){
+	bit_printnode(p,j);
+	if(p -> l || p -> r){
+	    bit_preorder(p -> l,j+1);
+	    bit_preorder(p -> r,j+1);
+	}
+    }
+    else{
+	for(int i = 0;i<j;i++)
+	    printf("  ");
+	printf("*X\n");
+    }
+	
 }
 
 //visita dell'albero in postorder(prima sotto albero sx, poi dx e infine la radice)
