@@ -39,7 +39,7 @@ struct graph *createGraph(int nv, int ne){
     g -> E = ne;
     g -> V = nv;
     if(!(g -> A = calloc(nv,sizeof(struct node *)))) {
-        fprintf("stderr,"Errore allocazione\n");
+        fprintf(stderr,"Errore allocazione\n");
         exit(-2);
     }
     return g;
