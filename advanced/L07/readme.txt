@@ -56,4 +56,4 @@ B) Aggiungo all’inizio e tolgo dalla fine
 C) Aggiungo e tolgo dalla fine
 D) Aggiungo e tolgo dall’inizio.
 
-Scelgo l'opzione D perché in una lista semplice l'inserimento e cancellazione in testa ha costo costante rispetto alle altre opzioni.
+Scelgo l'opzione C perché "annulla" funziona in LIFO annullando dall'ultimo al primo.
