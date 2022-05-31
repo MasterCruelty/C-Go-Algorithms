@@ -41,3 +41,19 @@ D) Creo due istanze della lista e confronto il tempo di esecuzione della prima r
 E) Nessuno degli esperimenti precedenti mi consente di rispondere alla domanda. Bisogna esaminare il codice per
    vedere se l’implementazione usa un riferimento prev al nodo precedente.
    [NON VALIDO] almeno uno degli esperimenti precedenti può rispondere alla domanda
+   
+---------------------------------------------------------------------------------------------------------------------------------------------
+Esercizio 1.5 ANNULLA L'ULTIMA OPERAZIONE
+
+Bisogna implementare una funzione "annulla" undo, che annulla l'ultima operazione svolta da un applicativo: si vuole salvare le azioni dell'utente in modo da poterle
+annullare nell'ordine inverso. Se l'utente esegue le azioni a,b e c, la funzionalità "annulla" andrebbe ad annullare prima c, poi b e infine a.
+
+La struttura dati usata è una lista concatenata semplice. Tra le seguenti opzioni, come usereste la lista per memorizzare le azioni dell'utente, 
+al fine di avere le migliori prestazioni per la feature "annulla"??
+
+A) Aggiungo alla fine e tolgo dall’inizio
+B) Aggiungo all’inizio e tolgo dalla fine
+C) Aggiungo e tolgo dalla fine
+D) Aggiungo e tolgo dall’inizio.
+
+Scelgo l'opzione D perché in una lista semplice l'inserimento e cancellazione in testa ha costo costante rispetto alle altre opzioni.
