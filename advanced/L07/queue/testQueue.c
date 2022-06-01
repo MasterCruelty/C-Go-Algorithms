@@ -17,7 +17,7 @@ int main(void){
 	
 	printf("Tolgo %d dalla coda\n",dequeue(q));
 	printf("Tolgo %d dalla coda\n",dequeue(q));
-	printf("Tolgo %d dalla coda",dequeue(q));
+	printf("Tolgo %d dalla coda\n",dequeue(q));
 	print_queue(q);
 
 	
