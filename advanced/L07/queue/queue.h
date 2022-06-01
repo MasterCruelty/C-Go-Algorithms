@@ -1,10 +1,10 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-typedef struct queue *Queue
+typedef struct queue *Queue;
 typedef int Item;
 
-void new_queue(Queue *q);
+void new_queue(Queue *q,int n);
 void destroy(Queue q);
 //aggiunge un elemento in coda
 void enqueue(Queue q, Item i);
