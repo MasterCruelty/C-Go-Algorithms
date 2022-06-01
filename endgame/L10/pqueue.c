@@ -32,9 +32,9 @@ int pqueue_length(Pqueue pq){
 //Inserisce k nella coda
 void pqueue_insert(Pqueue pq,Item k){
     if(pq -> cont < pq -> size -1){
-		pq -> cont +=1;
-		pq -> h[pq -> cont] = k;
-		heapify_up(pq -> h,pq -> cont);
+	pq -> cont +=1;
+	pq -> h[pq -> cont] = k;
+	heapify_up(pq -> h,pq -> cont);
     }
 }
 
@@ -59,27 +59,27 @@ Item pqueue_min(Pqueue pq){
 
 void heapify_up(Heap h,int i){
     if(i > 1){
-		int j = father(i);
-		if(h[i] < h[j]){
-		    swap(h,i,j);
-		    heapify_up(h,j);
-		}
+	int j = father(i);
+	if(h[i] < h[j]){
+	    swap(h,i,j);
+	    heapify_up(h,j);
+	}
     }
 }
 
 void heapify_down(Heap h,int i, int n){
     if(2* i <= n){
-		int j;
-		if(2 * i == n){
-		    j = 2* i;
-		}
-		else{
-		    j = h[2*i] < h[2*i+1] ? 2*i : 2*i+1;
-		    if(h[2*i]<h[2*i+1]){
-				swap(h,i,j);
-				heapify_down(h,j,n);
-		    }
-		}
+	int j;
+	if(2 * i == n){
+	    j = 2* i;
+	}
+	else{
+	    j = h[2*i] < h[2*i+1] ? 2*i : 2*i+1;
+	    if(h[2*i]<h[2*i+1]){
+		swap(h,i,j);
+		heapify_down(h,j,n);
+	    }
+	}
     }
 }
 
@@ -96,28 +96,28 @@ void swap(Heap h,int i,int j){
 
 void heap_printassummary(Pqueue pq, int i){
     if(i < pq -> cont){
-		heap_printnode(pq->h,i);
-		if(2*i <= pq -> cont || (2*i)+1 <= pq -> cont){
-	   		heap_printassummary(pq,2*i);
+	heap_printnode(pq->h,i);
+	if(2*i <= pq -> cont || (2*i)+1 <= pq -> cont){
+		heap_printassummary(pq,2*i);
 	    	heap_printassummary(pq,(2*i)+1);
-		}	
+	}	
     }
     else{
-		for(int j = 0;j < i; j++)
-	    	printf(" ");
-		printf("*X\n");
+	for(int j = 0;j < i; j++)
+	   	printf(" ");
+	printf("*X\n");
     }
 }
 
 void heap_printnode(Heap h,int j){
     for(int i = 1; i < j;i++)
-		printf("  ");
-	    printf("*%d \n",h[j]);
+	printf("  ");
+	printf("*%d \n",h[j]);
 }
 
 void heap_printarray(Pqueue pq,int i){
     for(int j = 0; j < i + 2; j++)
-		printf("|%d|",pq -> h[j]);
+	printf("|%d|",pq -> h[j]);
 }
 
 //funzione pqueue_sort sfruttando le funzioni scritte qui sopra
