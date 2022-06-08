@@ -27,3 +27,18 @@ void bit_postorder ( Bit_node p ){
     bit_printnode ( p );
   }
 }
+
+
+//conversione da array ad albero
+//la radice è contenuta in a[0]
+//il figlio sinistro è a[2*i+1]
+//il figlio destro è a[2*i+2]
+Bit_node bit_arr2tree(Item a[], int size,int j){
+    if(j >= size|| a[j] == -1){
+    	return NULL;
+    }
+    Bit_node root = bit_new(a[j]);
+    root -> l = bit_arr2tree(a,size,(j+j+1));
+    root -> r = bit_arr2tree(a,size,(j+j+2));
+    return root;
+}
