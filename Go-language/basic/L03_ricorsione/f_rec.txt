@@ -1,0 +1,103 @@
+func r_rec(n int) uint64 {
+	if n == 1 || n == 2 {
+		return 1
+	}
+	return f_rec(n-1) + f_rec(n-2)
+}
+
+domanda 1: Cosa restituisce f_rec(7)?
+
+f_rec(7) = f_rec(6) + f_rec(5)
+
+f_rec(6) = f_rec(5) + f_rec(4)
+
+f_rec(5) = f_rec(4) + f_rec(3)
+
+f_rec(4) = f_rec(3) + f_rec(2) = f_rec(3) + 1
+
+f_rec(3) = f_rec(2) + f_rec(1) = 1 + 1 = 2
+
+===> f_rec(4) = 2 + 1 = 3
+
+===> f_rec(5) = 3 + 2 = 5
+
+===> f_rec(6) = 5 + 3 = 8
+
+===> f_rec(7) = 8 + 5 = 13 risposta.
+
+domanda 2: perché n è dichiarato come intero mentre il valore restituito è di tipo uint64?
+
+perchè essendo la funzione che restituisce solo valori positivi, uso un unsigned int così ho 64 bit per rappresentare un numero e non 63 nel caso usassi un int.
+
+domanda 3: riassumere a parole cosa restituisce la funzione se riceve come argomento un intero n positivo .
+
+Restituisce il valore della serie di fibonacci di valore n.
+
+-----------------------------------------------------------------------------------------------
+
+f_iter1(n int) uint64 {
+	var f uint 64
+	var f1,f2 uint64 = 1,1
+	if n ==1 || n==2 {
+		return 1
+	}
+	for n >= 3{
+		n--
+		f = f1 + f2
+		f1 = f2
+		f2 = f
+	}
+	return f
+}
+
+f_iter2(n int) uint64{
+	var f uint64
+	var f1,f2 uint64=1,1
+	if n ==1 || n==2 {
+		return 1
+	}
+	for i :=2; i <= n;i++ {
+		f = f1+f2
+		f1 = f2
+		f2=f
+	}
+	return f
+}
+
+domanda 4: considerando solo il valore restituito, le due funzioni sono equivalenti?
+
+no, per esempio con n = 3, f_iter1 restituisce 2 ma f_iter2 restituisce 3.
+
+domanda 5: le due funzioni sono equivalenti alla funzione f_rec?
+
+f_iter 1 si, mentre f_iter 2 no.
+
+domanda 6: modificare le due funzioni se necessario per renderle equivalenti a f_rec
+
+in f_iter2 metto < stretto invece del <= nel for.
+
+domanda 7: stimare il numero di operazioni che si svolgono durante l'esecuzione delle 3 funzioni. Sono paragonabili?
+
+in f_rec al crescere di n eseguo 2^n operazioni, mentre nelle due funzioni iter eseguo un numero lineare di operazioni O(n).
+
+-----------------------------------------------------------------------------------------------
+
+func f_riter(a,b uint64, n int) uint64 {
+	if n == 2{
+		return a
+	}
+	if n == 1{
+		return b
+	}
+
+	return f_riter(a+b,a,n-1)
+}
+
+domanda 8: con quali argomenti devo invocare f_riter per ottenere il valore restituito da f_rec(n)?
+
+f_riter(1,1,n)
+
+domanda 10: confronto chiamate ricorsive tra f_rec(n) e f_riter(1,1,n) 
+
+f_riter fa una sola chiamata per ogni chiamata ricorsiva rispetto a f_rec che ne fa 2 per ogni chiamata.
+
