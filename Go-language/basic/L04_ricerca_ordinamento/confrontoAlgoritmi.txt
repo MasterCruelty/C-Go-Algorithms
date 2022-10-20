@@ -1,0 +1,77 @@
+Considerare AlgoX e AlgoY
+
+
+func algoX(table []int, x int) (bool,int) {
+	for i, el := range table{
+		if el == x {
+			return true, i
+		}
+	}
+	return false, -1
+}
+
+func algoY(table []int, x int) (bool,int) {
+	low, high := 0, len(table)-1
+	
+	for low <= high {
+		mid := (low + high) / 2
+		if table[mid] < x {
+			low = mid + 1
+		} else if table[mid] > x {
+			high = mid -1
+		} else {
+			return true, mid
+		}
+	}
+	return false, -1
+}
+
+Domanda 1: Si tracci AlgoX per table indicata qui sotto e x pari a 14. Si elenchino in particolare tutti i valori della variabile i durante l'esecuzione.
+
+table [(0,-9);(1,-1);(2,0);(3,13);(4,14);(5,14);(6,12);(7,29);(8,31);(9,24);(10,36);(11,36);(12,44);(13,44);(14,8)]
+
+risposta: i = 0,1,2,3,4.
+-------------------------------------------------------------------------------------------------
+Domanda 2: Si tracci AlgoY per la stessa table e x pari a 14. Si scrivano in particolare i valori delle variabili low,mid,high subito dopo l'esecuzione della riga 6
+           ogni volta che viene eseguita.
+
+risposta: 
+
+low = 0,0,4
+mid = 7,3,4
+high = 14,6,6
+-------------------------------------------------------------------------------------------------
+Domanda 3: Si indichi quali delle seguenti affermazioni sono vere per AlgoX e/o per AlgoY.
+X = AlgoX
+Y = AlgoY
+X&Y= entrambi
+no = nessuno
+non so
+
+a) L'algoritmo esamina gli elementi partendo dall'indice minimo al massimo. (X)
+b) L'algoritmo cerca l'elemtno massimo di table. (no)
+c) Come secondo valore, l'algoritmo restituisce sempre l'indice minore per l'elemento x se questo è contenuto in table. (X&Y)
+d) L'algoritmo ordina gli elementi in table. (no)
+e) L'algoritmo restituisce tutti gli indici in cui si trova l'elemento x. (no)
+f) L'algoritmo esamina tutti gli elementi di table. (X)
+g) L'algoritmo è corretto solo se table è ordinato. (Y)
+h) L'algoritmo alla fine restituisce sempre false, -1. (no)
+-------------------------------------------------------------------------------------------------
+Domanda 4: Si argomenti se la seguente affermazione è vera o falsa: AlgoX è più efficiente di AlgoY per cercare un singolo elemento in un vettore.
+
+risposta: AlgoX è più efficiente solo se il vettore non è ordinato, altrimenti è più efficiente AlgoY poiché non scorre necessariamente tutto il vettore.
+-------------------------------------------------------------------------------------------------
+Domanda 5: Quali nomi più esplicativi si potrebbero dare agli algoritmi AlgoX e AlgoY?
+
+risposta: AlgoX ==> ricerca lineare; ALgoY ==> ricerca binaria
+-------------------------------------------------------------------------------------------------
+Domanda 6: È facile modificare AlgoX in modo che restituisca tutti gli indici in cui si trova x? Cambia la complessità?
+
+risposta: è sufficiente fare la stessa ricerca scorrendo tutto il vettore e raccogliendo tutti gli indici invece del primo incontrato. Cambia la complessità in termini di spazio, ma il tempo resta lineare.
+-------------------------------------------------------------------------------------------------
+Domanda 7: È facile modificare AlgoY in modo che restituisca tutti gli indici in cui si trova x? Cambia la complessità?
+
+risposta: Non sembra immediato modificare AlgoY per restituire tutti gli indici, dovrei aggiungere un ciclo esterno in cui faccio n volte la ricerca binaria.
+          Quindi se n è il numero di indici da restituire e la ricerca binaria mi costa O(log_n), la complessità di tempo cambia in O(n*log_n)
+
+
