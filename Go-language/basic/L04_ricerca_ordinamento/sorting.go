@@ -44,7 +44,17 @@ func insertion_sort(numeri []int) {
 }
 
 func selection_sort(numeri []int) {
-	
+	var min = -1
+	for i:= 0;i < len(numeri);i++{
+		min = i
+		for j := i+1;j< len(numeri)-1;j++{
+			if numeri[j] < numeri[min]{
+				min = j
+			}
+		}
+		scambia(numeri[min],numeri[i])
+	}
+	fmt.Println(numeri)
 }
 
 func merge_sort(numeri []int) {
@@ -68,4 +78,10 @@ func inserisci_vettore() []int {
 		numeri[i] = n
 	}
 	return numeri
+}
+
+func scambia(i,k int) {
+	save := i
+	i = k
+	k = save
 }
