@@ -5,6 +5,9 @@ import (
 	"math/rand"
 )
 
+//in questo sorgente vi sono 3 algoritmi di ordinamento: insertion, selection e merge.
+//I primi due sono cosiddetti algoritmi di ordinamento elementari e hanno una complessità quadratica rispetto al tempo O(n^2).
+//mergesort è più avanzato e riesce ad avere una complessità poco più che lineare rispetto al tempo O(n*log_n).
 func main() {
 	var c string
 	numeri := []int{}
@@ -22,7 +25,7 @@ func main() {
 	fmt.Print("\n\nVettore ordinato con selection_sort: ")
 	selection_sort(numeri)
 	fmt.Print("\n\nVettore ordinato con merge_sort: ")
-	merge_sort(numeri)
+	fmt.Println(merge_sort(numeri))
 }
 
 
@@ -57,8 +60,35 @@ func selection_sort(numeri []int) {
 	fmt.Println(numeri)
 }
 
-func merge_sort(numeri []int) {
+func merge_sort(numeri []int) []int {
+	var mid int
+	if len(numeri) > 1 {
+		mid = len(numeri) / 2
+		return merge(merge_sort(numeri[:mid]),merge_sort(numeri[mid:]))
+	}else{
+		return numeri
+	}
+}
 
+func merge(left,right []int) []int {
+	size,i,j := len(left)+len(right),0,0
+	result := make([]int,size)
+	for k:= 0;k < size;k++ {
+		if i > len(left)-1 && j <= len(right)-1 {
+			result[k] = right[j]
+			j++
+		} else if j > len(right)-1 && i <= len(left)-1 {
+			result[k] = left[i]
+			i++
+		} else if left[i] < right[j] {
+			result[k] = left[i]
+			i++
+		}else {
+			result[k] = right[j]
+			j++
+		}
+	}
+	return result
 }
 
 
