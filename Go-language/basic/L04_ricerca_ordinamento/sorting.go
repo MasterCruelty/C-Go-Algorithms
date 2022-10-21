@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 //in questo sorgente vi sono 3 algoritmi di ordinamento: insertion, selection e merge.
@@ -14,18 +15,28 @@ func main() {
 	fmt.Print("Vuoi inserire i numeri? s/n\n")
 	fmt.Scan(&c)
 	if c == "n"{
-		fmt.Println("Allora verranno generati casualmente")
+		fmt.Println("Allora verranno generati casualmente(lunghezza vettore 1000, verranno stampati i primi 30 elementi..)")
 		numeri = crea_vettore()
 	} else{
 		numeri = inserisci_vettore()
 	}
-	fmt.Println("Vettore iniziale: ",numeri)
+	fmt.Println("Vettore iniziale: ",numeri[0:30])
 	fmt.Print("\n\nVettore ordinato con insertion_sort: ")
+	start := time.Now()
 	insertion_sort(numeri)
+	insertion := time.Since(start)
+	fmt.Println("\nTempo impiegato da insertionsort: ",insertion)
 	fmt.Print("\n\nVettore ordinato con selection_sort: ")
+	start2 := time.Now()
 	selection_sort(numeri)
+	selection := time.Since(start2)
+	fmt.Println("\nTempo impiegato da selectionsort: ",selection)
 	fmt.Print("\n\nVettore ordinato con merge_sort: ")
-	fmt.Println(merge_sort(numeri))
+	start3 := time.Now()
+	merge_sorted := merge_sort(numeri)
+	fmt.Println(merge_sorted[0:30])
+	merge := time.Since(start3)
+	fmt.Println("\nTempo impiegato da mergesort: ",merge)
 }
 
 
@@ -43,7 +54,7 @@ func insertion_sort(numeri []int) {
 		}
 		numeri[j+1] = key
 	}
-	fmt.Println(numeri)
+	fmt.Println(numeri[0:30])
 }
 
 func selection_sort(numeri []int) {
@@ -57,7 +68,7 @@ func selection_sort(numeri []int) {
 		}
 		scambia(numeri[min],numeri[i])
 	}
-	fmt.Println(numeri)
+	fmt.Println(numeri[0:30])
 }
 
 func merge_sort(numeri []int) []int {
@@ -93,17 +104,17 @@ func merge(left,right []int) []int {
 
 
 func crea_vettore() []int {
-	numeri := make([]int,25)
-	for i:= 0;i < 25;i++{
-		numeri[i] = rand.Intn(100)
+	numeri := make([]int,1000)
+	for i:= 0;i < 1000;i++{
+		numeri[i] = rand.Intn(1000)
 	}
 	return numeri
 }
 
 func inserisci_vettore() []int {
-	numeri := make([]int,10)
+	numeri := make([]int,30)
 	var n int
-	for i:=0;i < 10;i++{
+	for i:=0;i < 30;i++{
 		fmt.Scan(&n)
 		numeri[i] = n
 	}
