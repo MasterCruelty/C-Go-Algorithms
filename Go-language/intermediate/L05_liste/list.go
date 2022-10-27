@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 	"strconv"
+	"bufio"
+	"os"
 )
 
 /*
@@ -21,48 +23,66 @@ type linkedList struct {
 	head *listNode
 }
 
-
+/*
+   +: aggiunge il valore alla lista(se non c'è)
+   -: elimina il valore dalla lista(se c'è)
+   ?: controlla se il valore è nella lista
+   p: stampa la lista
+   o: stampa la lista al contrario
+   d: elimina tutti gli elementi dalla lista
+   c: restituisce il numero di elementi totale nella lista
+*/
 func main() {
 	var list linkedList
-	//list = addNewNode(list,9)
-	//searchList(list,9)
-	//printList(list)
 	var expr string
-	for expr != "f" {
-		fmt.Scan(&expr)
-		split := strings.Split(expr,",")
-		n,_ := strconv.Atoi(split[1])
+	scanner := bufio.NewScanner(os.Stdin)
+	for  {
+		scanner.Scan()
+		expr = scanner.Text()
+		split := strings.Split(expr," ")
+		if split[0] == "f" {
+			break
+		}
 		switch(split[0]) {
 			case "+":
+				n,_ := strconv.Atoi(split[1])
 				_,p := searchList(list,n)
 				if p == nil {
-					addNewNode(list,n)
+					list = addNewNode(list,n)
 				}
+				break
 			case "-":
+				n,_ := strconv.Atoi(split[1])
 				_,p := searchList(list,n)
 				if p != nil {
-					fmt.Println("todo")
-					//removeItem(*list,n)
+					removeItem(&list,n)
 				}
+				break
 			case "?":
+				n,_ := strconv.Atoi(split[1])
 				_,p := searchList(list,n)
 				if p != nil{
 					fmt.Println("Il valore appartiene all'insieme")
 				}else{
 					fmt.Println("Il valore non appartiene all'insieme")
 				}
+				break
 			case "c":
 				fmt.Println("Numero elementi: ",countItems(list))
+				break
 			case "p":
 				printList(list)
+				break
 			case "o":
-				fmt.Println("Todo")
+				printReverseList(list)
+				break
 			case "d":
 				p := list.head
 				for p != nil {
-					//removeItem(list,p.item)
+					removeItem(&list,p.item)
 					p = p.next
 				}
+				break
 		}
 	}
 	fmt.Println("Terminato")
@@ -109,6 +129,27 @@ func printList(l linkedList) {
 	for p != nil {
 		fmt.Print(p.item, " ")
 		p = p.next
+	}
+	fmt.Println()
+}
+
+/*
+  stampa della lista in modo inverso
+  scorro la lista a partire dalla testa tramite un puntatore 
+  ad ogni passo il puntatore punta al nodo successivo 
+  metto ogni valore in una lista e la stampo al contrario
+*/
+func printReverseList(l linkedList) {
+	p := l.head
+	list := make([]int,countItems(l))
+	var k int
+	for p != nil {
+		list[k] = p.item
+		p = p.next
+		k++
+	}
+	for i:= countItems(l)-1;i >= 0;i--{
+		fmt.Print(" ",list[i])
 	}
 	fmt.Println()
 }
