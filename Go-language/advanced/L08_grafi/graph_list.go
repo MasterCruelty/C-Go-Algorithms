@@ -52,6 +52,7 @@ func nuovoGrafo(n int) *grafo {
 //Lettura grafo da standard input
 //prima un intero n per il numero di vertici e poi a coppie gli archi con due vertici per riga
 //restituisce false se ci sono errori
+//si considerano grafi non orientati
 func leggiGrafo() *grafo{
 	fmt.Println("Inserisci il numero di vertici")
 	var n int
