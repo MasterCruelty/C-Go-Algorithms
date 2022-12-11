@@ -18,13 +18,17 @@ func leggiGrafo() grafo {
 	fmt.Println("Inserisci gli archi, uno per riga, nel formato 'v1 v2'")
 	var v1,v2 string
 	_,err := fmt.Scan(&v2,&v2)
-
+	i := 0
 	for err == nil {
 		//leggo i vertici
 		g[v1] = append(g[v1],v2)
 		g[v2] = append(g[v2],v1)
-		stampaGrafo(g)
+		//stampaGrafo(g)
 		_,err = fmt.Scan(&v1,&v2)
+		i++
+		if i > 6{
+			break
+		}
 	}
 	return g
 }
@@ -38,8 +42,53 @@ func stampaGrafo(g grafo) {
 	}
 }
 
+//visita in profondità
+//la funzione fa uso di una struttura di supporto aux che serve a ricordare quali vertici
+//sono già stati visitati. Usiamo una mappa da string a bool perché i vertici sono identificati da stringhe
+//prima di invocare la funzione, aux dovrà essere allocata e inizializzata.
+func dfs1(g grafo, v string,aux map[string]bool) {
+	fmt.Println(v)
+	aux[v]=true
+	for _, v2 := range g[v]{
+		if aux[v2] != true {
+			dfs1(g,v2,aux)
+		}
+	}
+}
+
+//visita in ampiezza
+//Usiamo una coda con una slice di stringhe. Inseriamo(enquee) in fondo con append e estraiamo(dequeue) dall'inizio con [1:]
+//La visita avviene quando si estraggono gli elementi dalla coda.Quando un vertice viene inserito nella coda si marca come visitato
+func bfs1(g grafo,v string,aux map[string]bool){
+	coda := []string{v}
+	aux[v] = true
+	
+	for len(coda) > 0 {
+		v := coda[0]
+		coda = coda[1:]
+		fmt.Println("\t",v)
+
+		for _,v2 := range g[v] {
+			if !aux[v2] {
+				coda = append(coda,v2)
+				aux[v2] = true
+			}
+		}
+	}
+}
+
+
+
 //main per testare grafo implementato come mappa di stringhe
 func main() {
 	g := leggiGrafo()
 	stampaGrafo(g)
+	//test visita in profondità
+	fmt.Println("Visita in profondità")
+	aux := make(map[string]bool)
+	dfs1(g,"anna",aux)
+	//test visita in ampiezza
+	fmt.Println("Visita in ampiezza")
+	aux = make(map[string]bool)
+	bfs1(g,"anna",aux)
 }
