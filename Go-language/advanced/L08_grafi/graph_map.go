@@ -42,6 +42,37 @@ func stampaGrafo(g grafo) {
 	}
 }
 
+//Restituisce il grado del vertice v
+//Si ricorda che il grado di un vertice è definito come il numero di vertici ad esso adiacenti.
+func degree(g grafo,v string) {
+	for vertice,lista : range g{
+		if vertice == v{
+			fmt.Printf("Il grado del vertice %s è %d",v,len(lista))
+			break
+		}
+	}
+}
+
+//funzione ausiliaria per controllare se un vertice è nella lista di adiacenza
+func verticeInLista(w string,list []string) bool{
+	for _,b := range list{
+		if b == w{
+			return true
+		}
+	}
+	return false
+}
+
+//Controlla se esiste un cammino semplice tra il vertice v e il vertice w
+//Si ricorda che un cammino si dice semplice quando attraversa ogni vertice al più una volta.
+func path(g grafo,v string,w string){
+	for vertice,lista: range g{
+		if vertice ==v && verticeInlista(w,lista){
+			fmt.Printf("Esiste un cammino semplice tra %s e %s",v,w)
+			break
+	}
+}
+
 //visita in profondità
 //la funzione fa uso di una struttura di supporto aux che serve a ricordare quali vertici
 //sono già stati visitati. Usiamo una mappa da string a bool perché i vertici sono identificati da stringhe
