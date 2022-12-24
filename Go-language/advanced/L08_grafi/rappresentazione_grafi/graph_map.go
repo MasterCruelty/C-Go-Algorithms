@@ -63,13 +63,27 @@ func verticeInLista(w string,list []string) bool{
 	return false
 }
 
+//Conta il numero di componenti connesse di un grafo(non orientato)
+//versione non ottimizzata(?)
+func ccc(g grafo) int{
+	count := 0
+	for vertice, lista: range g{
+		for vertice2,lista: range g{
+			if path(g,vertice,vertice2){
+				count += 1
+			}
+		}
+	}
+	return count
+}
+
 //Controlla se esiste un cammino semplice tra il vertice v e il vertice w
 //Si ricorda che un cammino si dice semplice quando attraversa ogni vertice al più una volta.
-func path(g grafo,v string,w string){
+func path(g grafo,v string,w string) bool{
 	for vertice,lista: range g{
 		if vertice ==v && verticeInlista(w,lista){
 			fmt.Printf("Esiste un cammino semplice tra %s e %s",v,w)
-			break
+			return true
 	}
 }
 
