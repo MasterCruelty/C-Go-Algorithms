@@ -28,5 +28,19 @@ import "fmt"
  * 
  * Il problema in termini di grafi può essere formulato come il trovare il cammino di peso minimo dalla galleria di Harmony a quella di Sarah.
  * 
+ * 
+ * 
  * PROGETTAZIONE ALGORITMO PER RISOLVERE IL PROBLEMA:
+ * Seguendo la strategia di Harmony, il problema può essere risolto tramite strategia greedy. Quindi ad ogni svincolo scelgo sempre quello con luminosità minore e
+ * non torno mai indietro sulle mie scelte fino a raggiungere Sarah(se possibile).
+ * All'inizio ordino i dati sulle gallerie in funzione del grado di luminosità e dopo di che uso la strategia di Harmony.
+ * 
+ * 
+ *
+ * IMPLEMENTAZIONE:
+ * Uso della struttura dati grafo con rappresentazione con liste di adiacenza
+ * input: N M S H
+ * per ogni M input: A B L
+ * A e B indicano lo svincolo(arco) e L il grado di luminosità
+ * riutilizzo del sorgente graph_list.go in advanced/L08_grafi/rappresentazione_grafi/graph_list.go
 */
