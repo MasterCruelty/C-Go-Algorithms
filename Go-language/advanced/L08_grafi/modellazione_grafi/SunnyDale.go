@@ -43,4 +43,24 @@ import "fmt"
  * per ogni M input: A B L
  * A e B indicano lo svincolo(arco) e L il grado di luminosità
  * riutilizzo del sorgente graph_list.go in advanced/L08_grafi/rappresentazione_grafi/graph_list.go
+ *
+ *
+ *
+ * ESEMPI INPUT:
+ * 5 6 1 5
+ * 1 2 5
+ * 2 3 1
+ * 3 4 3
+ * 4 5 2
+ * 5 1 6
+ * 1 4 4
+ * OUTPUT ASPETTATO:
+ * 2
+ *
+ * ESEMPIO 2:
+ * 3 2 2 1
+ * 3 1 2
+ * 2 3 1
+ * OUTPUT ASPETTATO:
+ * -1
 */
