@@ -22,8 +22,8 @@ import "fmt"
  *
  *
  * MODELLAZIONE:
- * Cosa rappresentano i nodi? ==> I nodi sono rappresentati dalle gallerie.
- * Cosa rappresentano gli archi? ==> Gli archi sono rappresentati dagli svincoli.
+ * Cosa rappresentano i nodi? ==> I nodi sono rappresentati dagli svincoli.
+ * Cosa rappresentano gli archi? ==> Gli archi sono rappresentati dalle gallerie.
  * Che caratteristiche ha il grafo? ==> Il grafo è un grafo orientato e pesato.(Non connesso siccome non è detto Harmony sia in grado di raggiungere Sarah)
  * 
  * Il problema in termini di grafi può essere formulato come il trovare il cammino di peso minimo dalla galleria di Harmony a quella di Sarah.
@@ -38,11 +38,10 @@ import "fmt"
  * 
  *
  * IMPLEMENTAZIONE:
- * Uso della struttura dati grafo con rappresentazione con liste di adiacenza
+ * Uso della struttura dati grafo con rappresentazione con una slice di slice di adiacenza
  * input: N M S H
  * per ogni M input: A B L
  * A e B indicano lo svincolo(arco) e L il grado di luminosità
- * riutilizzo del sorgente graph_list.go in advanced/L08_grafi/rappresentazione_grafi/graph_list.go
  *
  *
  *
@@ -64,3 +63,97 @@ import "fmt"
  * OUTPUT ASPETTATO:
  * -1
 */
+
+type arcoUscente struct {
+	v int //nodo di destinazione
+	l int //luminosità dell'arco
+}
+
+type grafo struct {
+	n int                     // numeri di nodi
+	m int                     // numero di archi
+	adiacenti [][]arcoUscente // adiacenti[i] è la slice delle gallerie che partono da i
+}
+
+func stampaGrafo(g grafo) {
+	fmt.Println("\nIl grafo ha",g.n,"nodi:")
+	for i := 1; i <= g.n; i++ {
+		fmt.Println(i,":",g.adiacenti[i])
+	}
+	fmt.Println()
+}
+
+// restituisce il numero di gallerie da attraversare oppure -1
+// uso di visita in ampiezza per visitare i nodi del grafo
+func calcolaCammino(g grafo,from int,to int) int {
+	//se non ci sono gallerie che partono dal nodo di partenza, non mi posso muovere e restituisco -1
+	if g.adiacenti[from] == nil {
+		return -1
+	}
+
+	v := from
+	count := 0
+	//mappa ausiliaria per tenere conto dei nodi visitati durante il percorso
+	//Probabilmente non necessaria considerando che Harmony non torna indietro sui suoi passi nella sua strategia
+	visited := make(map[int]bool)
+
+	for v != to {
+		//setto come visitato il nodo corrente
+		visited[v] = true
+		fmt.Println(visited)
+		min := 1000
+		minTo := -1
+		//visito i vicini del nodo v e segno il vicino con luminosità minima tra tutti
+		for _, galleria := range g.adiacenti[v] {
+			fmt.Println("visito vicini di",v,":",galleria,visited[galleria.v],galleria.l)
+			if galleria.l < min {
+				min = galleria.l
+				minTo = galleria.v
+			}
+		}
+		fmt.Println("luminosità minima:",min,"verso il nodo",minTo)
+		//controllo se il nodo appena trovato con luminosità minima è stato visitato altrimenti riprendo la visita partendo da quello
+		//e incremento il contatore delle gallerie da visitare
+		if visited[minTo] {
+			break
+		} else {
+			v = minTo
+			count++
+		}
+	}
+	if v == to {
+		fmt.Println("numero di gallerie da attraversare:",count)
+		return count
+	} else {
+		fmt.Println(-1)
+		return -1
+	}
+}
+
+//main per testare l'algoritmo di risoluzione del problema
+func main() {
+	var n int // numero svincoli-nodi da 1 a N
+	var m int // numero delle gallerie-archi
+	var h int // indice dello svincolo in cui si trova Harmony
+	var s int // indice dello svincolo della casa di Sarah
+
+	fmt.Scan(&n,&m,&h,&s)
+	fmt.Println(n,m,h,s)
+
+	var g grafo
+
+	g.n = n
+	g.m = m
+	g.adiacenti = make([][]arcoUscente,n+1) // lascio vuoto il primo vertice
+	var a,b,l int
+	for i := 0;i < m; i++ {
+		fmt.Scan(&a,&b,&l) // arco: da,a,luminosità
+
+		g.adiacenti[a] = append(g.adiacenti[a],arcoUscente{b,l})
+		g.adiacenti[b] = append(g.adiacenti[b],arcoUscente{a,l})
+	}
+
+	stampaGrafo(g)
+	fmt.Println(calcolaCammino(g,h,s))
+
+}
