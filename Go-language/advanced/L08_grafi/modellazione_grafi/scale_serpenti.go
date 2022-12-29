@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-
-
 /*
  * DESCRIZIONE DEL GIOCO:
  * Il gioco Scale e Serpenti si gioca su una griglia rettangolare che contiene numeri, scale e serpenti, come nella figura presente in questa directory.
@@ -57,3 +55,109 @@ import "fmt"
  * Se la griglia di gioco è quella rappresentata nella figura, il numero minimo di lanci per raggiungere 30 da 1 è 3(ad esempio con i lanci 2,6,2).
  * Senza usare scale nè serpenti, il numero minimo di lanci è 5(ad esempio con i lanci 5,6,6,6,6).
 */
+
+type board struct {
+	n int
+	jumps map[int]int //jump[i] è la casella di destinazione se ci si trova in i
+}
+
+func setBoard() board {
+	var r,c int
+	fmt.Scan(&r,&c)
+	n := r * c
+
+	jumps := make(map[int]int)
+	for {
+		var start,end int
+		_,err := fmt.Scan(&start,&end)
+		if err != nil {
+			break
+		}
+		jumps[start] = end
+	}
+	fmt.Println(jumps)
+	return board{n,jumps}
+}
+
+//stampa del numero di mosse necessarie
+func move(b board,start int,dice int) (end int) {
+	if el, ok := b.jumps[start+dice]; ok {
+		return el
+	} else{
+		return start + dice
+	}
+}
+
+/*
+ * Calcola il numero minimo di lanci necessari per arrivare alla casella di valore v partendo dalla casella di valore v0
+ * Modello l'evoluzione del gioco con un grafo(i nodi rappresentano le configurazioni, gli archi le mosse)
+ * Uso una visita in ampiezza del grafo(serve una coda)
+ * Restituisco 0 se v e v0 coincidono; Restituisco -1 se partendo da v0 non si può raggiungere v
+ * Se seq è pari a 1, stampa anche una sequenza di lanci di dadi di lunghezza minima(se c'è)
+*/
+func bfs(b board,v0,v int,seq bool) {
+	if v0 == v {
+		fmt.Println(0)
+		return
+	}
+	prec := make(map[int]int) // per ogni casella, indica la casella precedente
+	dice := make(map[int]int) // per ogni casella, indica conc he dado ci si è arrivati
+	aux := make(map[int]int)  // caselle già visitate, con distanza da v0
+
+	fmt.Println("\naux",aux)
+
+	coda := []int{v0} // all'inizio la coda contiene solo la casella di partenza
+	curr := v0
+	aux[v0] = 0
+	dice[v0] = -1
+	fmt.Println("coda",coda,"\naux",aux)
+
+	for len(coda) > 0 {
+		curr = coda[0]
+		coda = coda[1:]
+		fmt.Println("\tposizione",curr)
+
+		//metti nella coda tutti i vicini non ancora visitati
+		for i := 1; i <= 6;i++ {
+			end := move(b,curr,i)
+			if aux[end] >= 1 {
+				continue
+			}
+
+			if _, ok := aux[end]; !ok {
+				coda = append(coda,end)
+			}
+
+			fmt.Println("end",end,"curr",curr,"i",i)
+			prec[end] = curr
+			dice[end] = i
+			aux[end] = aux[curr] + 1
+
+			if end == b.n {
+				fmt.Println("bastano",aux[curr]+1,"mosse")
+				if seq {
+					printSeq(end,v0,prec,dice)
+				}
+				return
+			}
+		}
+		fmt.Println("coda",coda,"\naux",aux)
+	}
+}
+
+//stampa della sequenza di lanci
+func printSeq(v,v0 int,prec map[int]int,dice map[int]int) {
+	for v != v0 {
+		fmt.Println(v,"venendo da",prec[v],"con tiro",dice[v])
+		v = prec[v]
+	}
+}
+
+func main() {
+	b:= setBoard()
+	fmt.Println(b.n,b.jumps)
+
+	fmt.Println(move(b,3,3))
+	bfs(b,14,30,true)
+	bfs(b,1,30,true)
+}
