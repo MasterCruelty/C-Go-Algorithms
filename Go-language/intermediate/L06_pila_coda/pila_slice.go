@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+/*
+ * In una pila(Stack), gli elementi vengono inseriti e rimossi dalla stessa estremità(chiamata cima della pila) in un ordine LIFO.
+ * Quindi l'ultimo elemento inserito è il primo ad essere rimosso.
+ *
+ * In una coda(Queue) gli elementi vengono inseriti dalla coda e rimossi dalla testa in un ordine FIFO, quindi il primo inserito è il primo ad essere rimosso.
+ * Dunque la funzione Push e Enqueue di pila e coda hanno un comportamento simile ma l'effetto sulla struttura dati è differente.
+*/
+
 //implementazione della pila mediante slice
 type Stack struct{
 	items []int
