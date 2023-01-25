@@ -48,7 +48,7 @@ func maxSwindles(j int) int {
 	dp := make([]int, j+1)
 
 	// scorriamo attraverso tutti i jet-points
-	for i := 1; i <= j; i++ {
+	for i := 20000; i <= j; i+=2000 {
 		// consideriamo il massimo valore in swindles acquistabile con i jet-points
 		maxSwindles := 0
 		for swindles, jetPoints := range jetPointsToSwindles {
