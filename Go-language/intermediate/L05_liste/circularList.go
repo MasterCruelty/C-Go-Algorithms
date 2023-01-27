@@ -63,6 +63,31 @@ func stampaDaZero(p *circNode){
 	}
 }
 
+func Sposta(p *circNode){
+	var lunghezza int
+	temp := p
+	for temp.next != p{
+		temp = temp.next
+		lunghezza++
+	}
+	current := p
+	if p.value > 0 {
+		for i:= 0;i<=p.value;i++{
+			current = current.next
+		}
+		save := current.value
+		current.value = p.value
+		p.value = save
+	}else{
+		for i:= 0;i<=lunghezza - p.value;i++{
+			current = current.next
+		}
+		save := current.value
+		current.value = p.value
+		p.value = save
+	}
+}
+
 //main di test dove creo e faccio scorrere completamente una lista circolare partendo dalla testa e ritornandoci una volta percorsa tutta.
 func main(){
 	head := setHead(5)
@@ -83,7 +108,7 @@ func main(){
 
 
 	//da qui inizio a testare la funzione stampaDaZero
-	head2 := setHead(0)
+	head2 := setHead(3)
 	//leggo gli interi da standard input
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -95,5 +120,9 @@ func main(){
 			AddNewNode(val,head2)
 	}
 	//invoco la funzione stampaDaZero
+	stampaDaZero(head2)
+	fmt.Println("Sposto il nodo:",head2.value)
+	//ora testo la funzione sposta
+	Sposta(head2)
 	stampaDaZero(head2)
 }
