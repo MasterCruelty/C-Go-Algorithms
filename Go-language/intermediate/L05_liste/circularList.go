@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"bufio"
+	"os"
+	"strconv"
+)
 
 //Definizione struttura dati di tipo lista circolare
 type circNode struct {
@@ -40,6 +45,24 @@ func AddNewNode(val int, head *circNode){
 	newNode.next = head
 }
 
+//Stampa della lista circolare a partire dal nodo p contenente il valore 0
+func stampaDaZero(p *circNode){
+	current := p
+	for {
+		if current.value == 0{
+			break
+		}
+		current = current.next
+	}
+	for {
+		fmt.Println(current.value)
+		current = current.next
+		if current.value == 0{
+			break
+		}
+	}
+}
+
 //main di test dove creo e faccio scorrere completamente una lista circolare partendo dalla testa e ritornandoci una volta percorsa tutta.
 func main(){
 	head := setHead(5)
@@ -57,4 +80,20 @@ func main(){
 		}
 	}
 	fmt.Println(current.value)
+
+
+	//da qui inizio a testare la funzione stampaDaZero
+	head2 := setHead(0)
+	//leggo gli interi da standard input
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+			if scanner.Text() == "exit"{
+				break
+			}
+			val,_ := strconv.Atoi(scanner.Text())
+			//aggiungo il valore letto alla lista circolare
+			AddNewNode(val,head2)
+	}
+	//invoco la funzione stampaDaZero
+	stampaDaZero(head2)
 }
