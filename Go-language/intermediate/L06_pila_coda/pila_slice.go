@@ -32,6 +32,11 @@ func (s *Stack) Peek() int {
 	return s.items[len(s.items)-1]
 }
 
+//controlla se la pila è vuota
+func (s *Stack) IsEmpty() bool {
+	return len(s.items) == 0
+}
+
 //main di test per la pila
 func main(){
 	s := Stack{}

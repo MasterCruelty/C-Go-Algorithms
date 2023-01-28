@@ -24,6 +24,10 @@ func (q *Queue) Peek() int{
 	return q.items[0]
 }
 
+//verifica se la coda è vuota
+func (q *Queue) IsEmpty() bool {
+	return len(q.items) == 0
+}
 
 func main(){
 	q:=Queue{}
