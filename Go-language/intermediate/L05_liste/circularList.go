@@ -55,37 +55,27 @@ func stampaDaZero(p *circNode){
 		current = current.next
 	}
 	for {
-		fmt.Println(current.value)
+		fmt.Print(current.value,"->")
 		current = current.next
 		if current.value == 0{
 			break
 		}
 	}
+	fmt.Print(current.value,"\n")
 }
 
-func Sposta(p *circNode){
-	var lunghezza int
-	temp := p
-	for temp.next != p{
-		temp = temp.next
-		lunghezza++
-	}
-	current := p
-	if p.value > 0 {
-		for i:= 0;i<=p.value;i++{
-			current = current.next
+
+func stampaCircNode(head *circNode){
+	current := head
+	for {
+		fmt.Print(current.value,"->")
+		current = current.next
+		if current == head{
+			break
 		}
-		save := current.value
-		current.value = p.value
-		p.value = save
-	}else{
-		for i:= 0;i<=lunghezza - p.value;i++{
-			current = current.next
-		}
-		save := current.value
-		current.value = p.value
-		p.value = save
 	}
+	fmt.Print(current.value,"\n")
+
 }
 
 //main di test dove creo e faccio scorrere completamente una lista circolare partendo dalla testa e ritornandoci una volta percorsa tutta.
@@ -96,16 +86,7 @@ func main(){
 	AddNewNode(-5,head)
 
 	//scorro la lista circolare dalla testa fino a ritornare alla testa
-	current := head
-	for {
-		fmt.Println(current.value)
-		current = current.next
-		if current == head{
-			break
-		}
-	}
-	fmt.Println(current.value)
-
+	stampaCircNode(head)
 
 	//da qui inizio a testare la funzione stampaDaZero
 	head2 := setHead(3)
@@ -119,10 +100,7 @@ func main(){
 			//aggiungo il valore letto alla lista circolare
 			AddNewNode(val,head2)
 	}
-	//invoco la funzione stampaDaZero
-	stampaDaZero(head2)
-	fmt.Println("Sposto il nodo:",head2.value)
-	//ora testo la funzione sposta
-	Sposta(head2)
+	stampaCircNode(head2)
+	//ora testo la funzione stampaDaZero
 	stampaDaZero(head2)
 }
