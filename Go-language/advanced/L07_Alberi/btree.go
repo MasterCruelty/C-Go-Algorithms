@@ -55,6 +55,14 @@ func main(){
 	alb := arr2tree(numeri,0)
 	stampaAlberoASommario(alb,0)
 
+	//test ricerca inorder
+	fmt.Println("cerco il nodo 47")
+	if inOrderSearch(alb,47) != nil{
+		fmt.Println("Trovato il nodo 47")
+	}else{
+		fmt.Println("non è presente il nodo 47")
+	}
+
 }
 
 //Crea un nuovo nodo con il valore inserito in input e assegna null ai figli sx e dx
@@ -90,6 +98,21 @@ func stampaAlberoASommario(node *treeNode,spaces int) {
 		fmt.Println()
 	}
 
+}
+
+//ricerca di un nodo usando la visita inorder
+func inOrderSearch(node *treeNode,value int) *treeNode{
+	if node == nil {
+		return nil
+	}
+	result := inOrderSearch(node.left,value)
+	if result != nil{
+		return result
+	}
+	if node.item == value {
+		return node
+	}
+	return inOrderSearch(node.right,value)
 }
 
 //visita albero in ordine simmetrico (prima sottoalbero sx, poi la radice, poi sottoalbero dx)
