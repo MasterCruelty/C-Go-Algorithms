@@ -67,7 +67,9 @@ func maxSwindles(j int) int {
 }
 
 func main() {
-	jetPoints := 60000
+	jetPoints := 40000
+	fmt.Println("Max swindles:", maxSwindles(jetPoints))
+	jetPoints = 60000
 	fmt.Println("Max swindles:", maxSwindles(jetPoints))
 	jetPoints = 100000
 	fmt.Println("Max swindles:", maxSwindles(jetPoints))
