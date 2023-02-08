@@ -2,6 +2,10 @@ package main
 
 import (
 	"fmt"
+	"strings"
+	"strconv"
+	"bufio"
+	"os"
 )
 
 
@@ -137,6 +141,42 @@ func calcolaPrezzo(f foresta, n string)  int{
 	return result
 }
 
+/*
+ * esempio d'input: 
+ * frigo: casa + sedia 
+ * casa: 2
+ * sedia: 5
+ * frigo viene registrato come l'oggetto radice che compone la somma tra 2 e 5.
+*/
+func leggiInput() map[string]*oggetto{
+	//alloco la mappa degli oggetti 
+	oggetti := make(map[string]*oggetto)
+	//definisco lo scanner per ricevere da standard input
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		line := scanner.Text()
+		tokens:= strings.Split(line," ")
+		//rimuovo ":" dal nome 
+		nome:= tokens[0][:len(tokens[0])-1]
+		//in questo caso ho inserito una foglia del tipo "casa: 2"
+		if len(tokens) == 2{
+			val,_ := strconv.Atoi(tokens[1])
+			o := oggetto{nome,val,0,"","","val"}
+			oggetti[nome] = &o
+		//Altrimenti è un oggetto costituito dall'operazione tra due oggetti figli
+		}else{
+			o := oggetto{nome,0,rune(tokens[2][0]),tokens[1],tokens[3],"op"}
+			oggetti[nome] = &o
+		}
+	}
+	return oggetti
+}
+
+//main di test per le strutture dati e le funzioni
 func main(){
-	fmt.Println("todo")
+	oggetti := leggiInput()
+	foresta := costruisciForesta(oggetti)
+	stampaAlbero(foresta,"frigorifero")
+	result := calcolaPrezzo(foresta,"frigorifero")
+	fmt.Println(result)
 }
