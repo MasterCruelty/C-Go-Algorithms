@@ -54,6 +54,10 @@ func costruisciForesta(oggetti map[string]*oggetto) foresta{
  * Ispeziono la foresta usando la stringa n come chiave nella mappa degli oggetti
  * Se il valore non è la stringa nulla, allora restituisco sx e true
  * Altrimenti restituisco stringa vuota e false
+ *************************
+ * Valutazione complessità:
+ * Si tratta di estrarre un elemento dalla tabella avendo già la chiave.
+ * Quindi si può fare in tempo costante O(1)
 */
 func sx(f foresta,n string) (string,bool) {
 	sx := f.oggetti[n].sx
@@ -67,6 +71,10 @@ func sx(f foresta,n string) (string,bool) {
  * Ispeziono la foresta usando la stringa n come chiave per la tabella dei padri
  * Se trovo un valore diverso dalla stringa vuota, restituisco padre e true
  * Altrimenti restituisco stringa vuota e false
+ *************************
+ * Valutazione complessità:
+ * Si tratta di estrarre un elemento dalla tabella avendo già la chiave.
+ * Quindi si può fare in tempo costante O(1)
 */
 func up(f foresta,n string) (string,bool){
 	padre := f.padri[n]
@@ -78,6 +86,10 @@ func up(f foresta,n string) (string,bool){
 
 /*
  * Uguale alla funzione sx ma si ispeziona sull'attributo dx
+ *************************
+ * Valutazione complessità:
+ * Si tratta di estrarre un elemento dalla tabella avendo già la chiave.
+ * Quindi si può fare in tempo costante O(1)
 */
 func dx(f foresta,n string) (string,bool) {
 	dx := f.oggetti[n].dx
@@ -90,6 +102,11 @@ func dx(f foresta,n string) (string,bool) {
 /*
  * Viene eseguita una visita in profondità in ordine simmetrico(inorder)
  * Quindi prima figlio sx, poi radice, poi figlio destro sfruttando la ricorsione
+ *************************
+ * Valutazione complessità:
+ * la funzione viene eseguita ricorsivamente in profondità nell'albero.
+ * Il costo è equivalente a quello di una visita in ordine simmetrico
+ * Quindi la complessità è O(log(n)) dove n è il numero di nodi dell'albero
 */
 func stampaAlbero(f foresta,n string){
 	Sx,foundsx := sx(f,n)
@@ -114,6 +131,11 @@ func stampaAlbero(f foresta,n string){
  * Se sono su una foglia, stampo direttamente il valore dell'oggetto.
  * Altrimenti ricorsivamente eseguo la funzione sui figli sx e dx.
  * In base al simbolo di operazione la eseguo e restituisco il valore finale.
+ *******************
+ * Valutazione complessità:
+ * Analogamente alla funzione StampaAlbero, si estraggono le oparazioni
+ * eseguendo una visita in profondità, questa volta in ordine anticipato.
+ * Il costo è sempre O(log(n))
 */
 func calcolaPrezzo(f foresta, n string)  int{
 	if f.oggetti[n].tipo == "val"{
