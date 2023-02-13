@@ -89,21 +89,32 @@ func sequenza(curr conf, x []int) conf {
 }
 
 func sequenzaSpegniTutto(curr conf) []int {
-
-	var coda []conf = []conf{curr}
+	coda := make([]conf,0,1)
 	var stato string
 	percorso := make(map[string][]int)
+	coda = append(coda,curr)
 	for !is_spenta(curr) {
-		for i := 1; i <= len(curr); i++ {
+		curr = coda[0]
+		coda = coda[1:]
+		ragg := raggiungibili(curr)
+		for i := 0;i<len(ragg);i++ {
 			coda = append(coda, premi(curr, i))
 			stato = trasformaInStringa(premi(curr,i))
 			percorso[stato] = append(percorso[stato], i)
 		}
-		curr = coda[1]
-		coda = coda[1:]
 	}
 
 	return percorso[trasformaInStringa(curr)]
+}
+
+func raggiungibili(curr conf) []conf{
+	raggiungibili := make([]conf,0)
+	for i:=0;i< len(curr);i++{
+		s := premi(curr,i)
+		raggiungibili = append(raggiungibili,s)
+	}
+	return raggiungibili
+
 }
 
 func trasformaInStringa(curr conf) string {
