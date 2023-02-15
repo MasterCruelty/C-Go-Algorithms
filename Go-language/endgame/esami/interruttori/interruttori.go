@@ -8,8 +8,10 @@ import (
 	"strings"
 )
 
+//slice di bool per rappresentare lo stato d'accensione
 type conf []bool
 
+//main di test per le funzioni
 func main() {
 
 	var rete, interuttori []int
@@ -59,6 +61,7 @@ func main() {
 	}
 }
 
+//preme l'interruttore numero x e restituisce lo stato d'accensione aggiornato
 func premi(curr conf, x int) conf {
 	temp_conf := make(conf,len(curr))
 	copy(temp_conf,curr)
@@ -79,6 +82,7 @@ func premi(curr conf, x int) conf {
 	return temp_conf
 }
 
+//Preme in sequenza gli interruttori della slice x, restituisce lo stato d'accensione aggiornato
 func sequenza(curr conf, x []int) conf {
 
 	for i := 0; i < len(x); i++ {
@@ -88,28 +92,27 @@ func sequenza(curr conf, x []int) conf {
 	return curr
 }
 
-func sequenzaSpegniTutto(curr conf) []int {
-	coda := make([]conf,0,1)
+//Restituisce la sequenza di bottoni da premere per spegnere tutte le luci
+func sequenzaSpegniTutto(curr conf) []int{
+	var coda []conf = []conf{curr}
 	var stato string
 	percorso := make(map[string][]int)
-	coda = append(coda,curr)
 	for !is_spenta(curr) {
-		curr = coda[0]
-		coda = coda[1:]
-		ragg := raggiungibili(curr)
-		for i := 0;i<len(ragg);i++ {
-			coda = append(coda, premi(curr, i))
+		for i := 1;i<=len(curr);i++ {
+			coda = append(coda, premi(curr,i))
 			stato = trasformaInStringa(premi(curr,i))
 			percorso[stato] = append(percorso[stato], i)
 		}
+		curr = coda[1]
+		coda = coda[1:]
 	}
-
 	return percorso[trasformaInStringa(curr)]
 }
 
+//restituisce tutti gli stati raggiungibili premendo un bottone a partire dallo stato curr
 func raggiungibili(curr conf) []conf{
 	raggiungibili := make([]conf,0)
-	for i:=0;i< len(curr);i++{
+	for i:=1;i<=len(curr)-1;i++{
 		s := premi(curr,i)
 		raggiungibili = append(raggiungibili,s)
 	}
@@ -117,6 +120,7 @@ func raggiungibili(curr conf) []conf{
 
 }
 
+//Conversione di slice di bool in stringa di zeri e uni
 func trasformaInStringa(curr conf) string {
 
 	var s string
@@ -130,6 +134,7 @@ func trasformaInStringa(curr conf) string {
 	return s
 }
 
+//controllo se ogni bit è a zero nello stato d'accensione
 func is_spenta(curr conf) bool {
 
 	for _, v := range curr {
@@ -140,6 +145,7 @@ func is_spenta(curr conf) bool {
 	return true
 }
 
+//Restituisce il numero di bottoni che è necessario premere per spegnere tutte le luci
 func spegniTutto(curr conf) int {
 	return len(sequenzaSpegniTutto(curr))
 }
