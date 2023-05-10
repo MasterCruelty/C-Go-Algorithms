@@ -72,34 +72,30 @@ func selection_sort(numeri []int) {
 }
 
 func merge_sort(numeri []int) []int {
-	var mid int
-	if len(numeri) > 1 {
-		mid = len(numeri) / 2
-		return merge(merge_sort(numeri[:mid]),merge_sort(numeri[mid:]))
-	}else{
+	if len(numeri) == 1 {
 		return numeri
 	}
+	n := len(numeri) / 2
+	merge_sort(numeri[:n])
+	merge_sort(numeri[n:])
+	copy(numeri,merge(numeri[:n],numeri[n:]))
+	return numeri
 }
 
-func merge(left,right []int) []int {
-	size,i,j := len(left)+len(right),0,0
-	result := make([]int,size)
-	for k:= 0;k < size;k++ {
-		if i > len(left)-1 && j <= len(right)-1 {
-			result[k] = right[j]
-			j++
-		} else if j > len(right)-1 && i <= len(left)-1 {
-			result[k] = left[i]
+func merge(left,right []int) (res []int) {
+	i , j := 0 , 0
+	for i < len(left) && j < len(right) {
+		if left[i] < right[j] {
+			res = append(res,left[i])
 			i++
-		} else if left[i] < right[j] {
-			result[k] = left[i]
-			i++
-		}else {
-			result[k] = right[j]
+		} else {
+			res = append(res,right[j])
 			j++
 		}
 	}
-	return result
+	res = append(res,left[i:]...)
+	res = append(res,right[j:]...)
+	return res
 }
 
 
