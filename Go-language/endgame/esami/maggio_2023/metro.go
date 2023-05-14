@@ -29,6 +29,7 @@ import (
 		"bufio"
 		"os"
 		"strings"
+		"strconv"
 )
 
 type stazione struct{
@@ -55,31 +56,49 @@ func leggiDati(nomeFile string) rete{
 
 	scanner := bufio.NewScanner(myFile)
 	var temp, num string
-	interscambio := make(map[string]int)
 	var staz []stazione
-	metro := &rete{adj:nil}
+	metro := &rete{adj:make(map[string][]*stazione)}
 
+	//leggo il contenuto del file
 	for scanner.Scan() {
+		//formatto il testo letto
 		linea := scanner.Text()
-		stazioniLinea := strings.Split(linea,":")
+		stazioniLinea := strings.Split(linea,": ")
 		fmt.Sscanf(stazioniLinea[0],"%s %s",temp,num)
-		numLinea, _ := strconv.Atoi(num)
+		numLinea,_ := strconv.Atoi(strings.TrimPrefix(stazioniLinea[0], "Linea "))
 		stazioni := strings.Split(stazioniLinea[1],"; ")
-
+		//creo una slice contenente tutte le stazioni in ordine una dopo l'altra
 		for _,v := range stazioni{
-			stazione := &stazione{nome: v,linea: numLinea,interscambio:false}
+			stazione := &stazione{nome: v,linea: numLinea}
 			staz = append(staz,*stazione)
 		}
 	}
-	for _, j:= range staz{
-		for _, i := range staz{
-			if(j.nome == i.nome && (j.linea != i.linea)) {
-				j.interscambio = true
-				i.interscambio = true
-				//inserire direttamente le stazioni come adiacenti
+	//identifico le stazioni di interscambio
+	for i:= 0; i < len(staz); i++{
+		for j:= 0;j < len(staz); j++{
+			if(i != j && staz[i].nome == staz[j].nome && staz[i].linea != staz[j].linea) {
+				staz[j].interscambio = true
+				staz[i].interscambio = true
+				metro.adj[staz[j].nome] = append(metro.adj[staz[j].nome],&staz[i])
+				metro.adj[staz[i].nome] = append(metro.adj[staz[i].nome],&staz[j])
 			}
 		}
 	}
-	//ciclo per popolare la rete e inserire per ogni stazione i suoi vicini e restituire
-	return metro
+	//popolo le slice degli adiacenti
+	for i, stazione := range staz{
+		if i > 0{
+			metro.adj[stazione.nome] = append(metro.adj[stazione.nome],&staz[i-1])
+		}
+		if i < len(staz)-1{
+			metro.adj[stazione.nome] = append(metro.adj[stazione.nome],&staz[i+1])
+		}
+	}
+	return *metro
+}
+
+
+func main(){
+	metro := leggiDati("linee.txt")
+	adj_cadorna := metro.adj["Cadorna"]
+	fmt.Println(adj_cadorna[0])
 }
