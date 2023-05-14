@@ -1,0 +1,4 @@
+Linea 1: Loreto; Lima; Venezia; Palestro; San Babila; Duomo; Cordusio; Cairoli; Cadorna; Conciliazione;
+Linea 2: Sant'Ambrogio; Cadorna; Lanza; Moscova; Porta Garibaldi; Gioia; Centrale; Caiazzo; Loreto; Piola;
+Linea 3: Sondrio; Centrale; Repubblica;
+Linea 5: Istria; Marche; Zara; Isola; Porta Garibaldi;
