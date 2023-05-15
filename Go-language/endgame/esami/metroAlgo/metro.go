@@ -66,7 +66,6 @@ func leggiDati(nomeFile string) rete{
 	defer myFile.Close()
 
 	scanner := bufio.NewScanner(myFile)
-	var temp, num string
 	var staz []stazione
 	metro := &rete{adj:make(map[string][]*stazione),linee:make(map[int][]*stazione)}
 
@@ -75,7 +74,6 @@ func leggiDati(nomeFile string) rete{
 		//formatto il testo letto
 		linea := scanner.Text()
 		stazioniLinea := strings.Split(linea,": ")
-		fmt.Sscanf(stazioniLinea[0],"%s %s",temp,num)
 		numLinea,_ := strconv.Atoi(strings.TrimPrefix(stazioniLinea[0], "Linea "))
 		stazioni := strings.Split(stazioniLinea[1],"; ")
 		//creo una slice contenente tutte le stazioni in ordine una dopo l'altra
@@ -179,6 +177,33 @@ func stessaLinea(metro rete,s1 string,s2 string) bool{
 	}
 }
 
+
+func tempo(metro rete, partenza string, arrivo string) int{
+	coda := []string{partenza}
+	aux := make(map[string]bool)
+	aux[partenza] = true
+	result := 0
+	for len(coda) > 0{
+		partenza := coda[0]
+		coda = coda[1:]
+		fmt.Println(partenza)
+		for _, vicino:= range metro.adj[partenza]{
+			if !aux[vicino.nome] {
+				if vicino.nome == arrivo{
+					result++
+					return result
+				}
+				coda = append(coda,vicino.nome)
+				aux[vicino.nome] = true
+			}
+		}
+		result++
+	}
+
+	return result
+}
+
+
 //main di test per le funzioni
 func main(){
 	metro := leggiDati("linee.txt")
@@ -196,12 +221,18 @@ func main(){
 	for i := 0;i< len(stazioni);i++{
 		fmt.Println(stazioni[i].nome)
 	}
-	fmt.Println("\nElenco delle stazioni di interscambio:\n")
+	fmt.Println("\nElenco delle stazioni di interscambio:")
 	interscambi := interscambio(metro)
 	fmt.Println(interscambi)
+	fmt.Println()
 	fmt.Println("Di quali stazioni vuoi controllare se sono sulla stessa linea? ")
 	s1,s2 := "",""
 	fmt.Scan(&s1,&s2)
 	ok := stessaLinea(metro,s1,s2)
 	fmt.Println(ok)
+	fmt.Println("Stazione di partenza e arrivo")
+	s1,s2 = "",""
+	fmt.Scan(&s1,&s2)
+	time := tempo(metro,s1,s2)
+	fmt.Println(time)
 }
