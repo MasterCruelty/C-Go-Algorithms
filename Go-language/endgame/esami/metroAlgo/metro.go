@@ -192,8 +192,11 @@ func main(){
 	fmt.Println("Di quale linea vuoi sapere le stazioni?")
 	line := 0
 	fmt.Scan(&line)
-	linea(metro,line)
-	fmt.Println("Elenco delle stazioni di interscambio:\n")
+	stazioni := linea(metro,line)
+	for i := 0;i< len(stazioni);i++{
+		fmt.Println(stazioni[i].nome)
+	}
+	fmt.Println("\nElenco delle stazioni di interscambio:\n")
 	interscambi := interscambio(metro)
 	fmt.Println(interscambi)
 	fmt.Println("Di quali stazioni vuoi controllare se sono sulla stessa linea? ")
