@@ -40,12 +40,22 @@ type stazione struct{
 }
 
 type rete struct{
-	adj map[string][]*stazione
+	adj map[string][]*stazione //mappa che dato il nome di una stazione, si hanno gli adiacenti
+	linee map[int][]*stazione  //mappa che dato il numero di linea, si hanno le stazioni di quella linea in ordine
 }
 
 /*
  * Funzione che legge i dati del grafo della metropolitana come file di testo 
  * e restituisce il grafo come tipo rete popolandolo.
+ * Valutazione complessità:
+ * C'è un primo for che esegue una serie di operazioni elementari e lo fa per ogni riga del file.
+ * Al suo interno vi è un altro for innestato che esegue un numero di operazioni elementare che dipende
+ * dal numero di stazioni su ogni riga del file. Se identifico con R la riga del file e con S il numero di stazioni.
+ * Questa prima parte ha complessità O(R*S).
+ * Successivamente ho altri due for innestati, quello esterno esegue S operazioni e quello interno pure.
+ * Questa seconda parte ha complessità O(S^2).
+ * Infine ho un ultimo ciclo for che esegue S operazioni elementari quindi ha costo O(S).
+ * O(R*S) + O(S^2) + O(S) = O(S^2)
 */
 func leggiDati(nomeFile string) rete{
 	myFile, err := os.Open(nomeFile)
@@ -58,7 +68,7 @@ func leggiDati(nomeFile string) rete{
 	scanner := bufio.NewScanner(myFile)
 	var temp, num string
 	var staz []stazione
-	metro := &rete{adj:make(map[string][]*stazione)}
+	metro := &rete{adj:make(map[string][]*stazione),linee:make(map[int][]*stazione)}
 
 	//leggo il contenuto del file
 	for scanner.Scan() {
@@ -72,6 +82,7 @@ func leggiDati(nomeFile string) rete{
 		for _,v := range stazioni{
 			stazione := &stazione{nome: v,linea: numLinea}
 			staz = append(staz,*stazione)
+			metro.linee[numLinea] = append(metro.linee[numLinea],stazione)
 		}
 	}
 	//identifico le stazioni di interscambio e gestisco le adiacenze tra loro
@@ -100,14 +111,94 @@ func leggiDati(nomeFile string) rete{
 	return *metro
 }
 
+/*
+ * Restituisce la slice con le stazioni della linea numLinea in ordine
+ * Valutazione complessità:
+ * O(1) prelevo direttamente dalla mappa le stazioni della linea richiesta
+*/
+func linea(metro rete,numLinea int) []*stazione{
+	stazioni := metro.linee[numLinea]
+	return stazioni
+}
 
+/*
+ * Restituisce le stazioni vicine alla stazione in ingresso
+ * Valutazione complessità:
+ * l'assegnamento iniziale viene eseguito in O(1).
+ * Il ciclo for esegue al più 3 iterazioni per popolare la slice delle vicine.
+ * O(S) complessità finale, ma considerando le poche iterazioni è come se fosse tempo costante.
+*/
+func stazioniVicine(metro rete, s string) []string{
+	vicine := metro.adj[s]
+	result := make([]string,0)
+	for i:= 0;i< len(vicine);i++{
+		result = append(result,vicine[i].nome)
+	}
+	return result
+}
+
+/*
+ * Restituisce la slice contenente i nomi delle stazioni di interscambio
+ * Valutazione complessità:
+ * Il primo ciclo scorre gli elementi della mappa metro.adj
+ * Il secondo ciclo scorre la slice stazioni
+ * Consideriamo R il numero di chiavi nella mappa e S il numero di stazioni per chiave
+ * Complessità finale O(R*S)
+*/
+func interscambio(metro rete) []string{
+	interscambiSet := make(map[string]bool)
+    interscambi := make([]string, 0)
+
+    for _, stazioni := range metro.adj {
+        for _, stazione := range stazioni {
+            if stazione.interscambio {
+                nomeStazione := stazione.nome
+                if !interscambiSet[nomeStazione] {
+                    interscambiSet[nomeStazione] = true
+                    interscambi = append(interscambi, nomeStazione)
+                }
+            }
+        }
+    }
+
+    return interscambi
+}
+
+/*
+ * Restituisce true se due stazioni sono sulla stessa linea altrimenti false.
+ * Valutazione complessità:
+ * O(1) sono tutte operazioni elementari.
+*/
+func stessaLinea(metro rete,s1 string,s2 string) bool{
+	stazione1 := metro.adj[s1][len(metro.adj[s1])-1].linea
+	stazione2 := metro.adj[s2][len(metro.adj[s2])-1].linea
+	if stazione1 == stazione2{
+		return true
+	}else{
+		return false
+	}
+}
+
+//main di test per le funzioni
 func main(){
 	metro := leggiDati("linee.txt")
+
 	fmt.Println("Quale stazione vuoi sapere chi è adiacente?")
 	stazione := ""
 	fmt.Scan(&stazione)
-	adj_stazione := metro.adj[stazione]
-	for i:= 0;i < len(adj_stazione);i++{
-		fmt.Println(adj_stazione[i].nome + "=>" + strconv.Itoa(adj_stazione[i].linea))
-	}
+	vicine:= stazioniVicine(metro,stazione)
+	fmt.Println(vicine)
+
+	fmt.Println("Di quale linea vuoi sapere le stazioni?")
+	line := 0
+	fmt.Scan(&line)
+	linea(metro,line)
+	fmt.Println("Elenco delle stazioni di interscambio:\n")
+	interscambi := interscambio(metro)
+	fmt.Println(interscambi)
+	fmt.Println("Di quali stazioni vuoi controllare se sono sulla stessa linea? ")
+	s1,s2 := "",""
+	fmt.Scan(&s1,&s2)
+	ok := stessaLinea(metro,s1,s2)
+	fmt.Println(ok)
 }
