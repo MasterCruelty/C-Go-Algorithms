@@ -90,10 +90,10 @@ func leggiDati(nomeFile string) rete{
 	}
 	//popolo le slice degli adiacenti
 	for i, stazione := range staz{
-		if i > 0{
+		if i > 0 && stazione.linea == staz[i-1].linea {
 			metro.adj[stazione.nome] = append(metro.adj[stazione.nome],&staz[i-1])
 		}
-		if i < len(staz)-1{
+		if i < len(staz)-1 && stazione.linea == staz[i+1].linea{
 			metro.adj[stazione.nome] = append(metro.adj[stazione.nome],&staz[i+1])
 		}
 	}
