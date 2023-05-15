@@ -20,7 +20,8 @@ package main
  *
  * Punto 3.
  * l'algoritmo progettato e utilizzabile per il problema è quello descritto nel punto 2 prendendo in ingresso il grafo e i nodi di partenza e arrivo.
- * Il grafo può essere implementato in modo efficiente tramite una mappa che ha come chiave il nome di una stazione e come valore l'elenco delle stazioni 
+ * Il grafo può essere implementato in modo efficiente tramite una lista di adiacenze dove ad ogni stazione è associata la lista delle stazioni vicine.
+ * Per quanto riguarda l'implementazione avremo una mappa che ha come chiave il nome di una stazione e come valore l'elenco delle stazioni vicine.
  * adiacenti.
 */
 
@@ -73,12 +74,15 @@ func leggiDati(nomeFile string) rete{
 			staz = append(staz,*stazione)
 		}
 	}
-	//identifico le stazioni di interscambio
+	//identifico le stazioni di interscambio e gestisco le adiacenze tra loro
+	//Ad esempio Cadorna sulla linea 1 è adiacente a Cadorna sulla linea 2
 	for i:= 0; i < len(staz); i++{
 		for j:= 0;j < len(staz); j++{
 			if(i != j && staz[i].nome == staz[j].nome && staz[i].linea != staz[j].linea) {
 				staz[j].interscambio = true
 				staz[i].interscambio = true
+				staz[j].nome = staz[j].nome + "-" + strconv.Itoa(staz[j].linea)
+				staz[i].nome = staz[i].nome + "-" + strconv.Itoa(staz[i].linea)
 				metro.adj[staz[j].nome] = append(metro.adj[staz[j].nome],&staz[i])
 				metro.adj[staz[i].nome] = append(metro.adj[staz[i].nome],&staz[j])
 			}
@@ -99,6 +103,11 @@ func leggiDati(nomeFile string) rete{
 
 func main(){
 	metro := leggiDati("linee.txt")
-	adj_cadorna := metro.adj["Cadorna"]
-	fmt.Println(adj_cadorna[0])
+	fmt.Println("Quale stazione vuoi sapere chi è adiacente?")
+	stazione := ""
+	fmt.Scan(&stazione)
+	adj_stazione := metro.adj[stazione]
+	for i:= 0;i < len(adj_stazione);i++{
+		fmt.Println(adj_stazione[i].nome + "=>" + strconv.Itoa(adj_stazione[i].linea))
+	}
 }
