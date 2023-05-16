@@ -178,31 +178,40 @@ func stessaLinea(metro rete,s1 string,s2 string) bool{
 }
 
 
-func tempo(metro rete, partenza string, arrivo string) int{
-	coda := []string{partenza}
-	aux := make(map[string]bool)
-	aux[partenza] = true
-	result := 0
-	for len(coda) > 0{
-		partenza := coda[0]
-		coda = coda[1:]
-		fmt.Println(partenza)
-		for _, vicino:= range metro.adj[partenza]{
-			if !aux[vicino.nome] {
-				if vicino.nome == arrivo{
-					result++
-					return result
-				}
-				coda = append(coda,vicino.nome)
-				aux[vicino.nome] = true
-			}
-		}
-		result++
-	}
-
+/*
+ * Restituisce il tempo minimo per raggiungere l'arrivo data la partenza.
+ * Quindi il numero minimo di stazioni attraversate considerato il peso fisso su ogni nodo.
+ * Il primo ciclo itera finché la coda non è vuota, viene eseguito S volte dove S è il numero delle tazioni.
+ * Il secondo ciclo viene eseguito un numero di volte pari al livello corrente della visita in ampiezza.
+ * Quindi itera su tutte le stazioni del livello corrente, che possono essere al massimo S.
+ * Il terzo ciclo itera su tutte le stazioni adiacenti, un numero R di stazioni adiacenti.
+ * Complessità finale O(V) * O(V) + O(E) = O(V^2+E)
+*/
+func tempo(metro rete, partenza string, arrivo string) int {
+    coda := []string{partenza}
+    aux := make(map[string]bool)
+    aux[partenza] = true
+    result := 0
+    for len(coda) > 0 {
+        livello := len(coda)
+        for i := 0; i < livello; i++ {
+            partenza := coda[0]
+            coda = coda[1:]
+			fmt.Println("Sto visitando i vicini di: " + partenza)
+            for _, vicino := range metro.adj[partenza] {
+                if !aux[vicino.nome] {
+                    if vicino.nome == arrivo {
+                        return result + 1
+                    }
+                    coda = append(coda, vicino.nome)
+                    aux[vicino.nome] = true
+                }
+            }
+        }
+        result++
+    }
 	return result
 }
-
 
 //main di test per le funzioni
 func main(){
@@ -233,6 +242,7 @@ func main(){
 	fmt.Println("Stazione di partenza e arrivo")
 	s1,s2 = "",""
 	fmt.Scan(&s1,&s2)
+	fmt.Println()
 	time := tempo(metro,s1,s2)
-	fmt.Println(time)
+	fmt.Println("Tempo minimo: " + strconv.Itoa(time))
 }
