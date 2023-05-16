@@ -7,13 +7,13 @@ package main
  * Ogni stazione rappresente un nodo del grafo. Incluse le stazioni di interscambio, 
  * che permettono il cambio di linea differenziando per esempio con Cadorna 1 il nodo della linea 1,
  * e Cadorna 2 il nodo della linea 2, collegate tramite un arco.
- * I tratti tra una stazione e un'altra lo possiamo considerare come un cammino. I pesi sugli archi sono fissi a 1.
+ * I tratti tra una stazione e un'altra adiacente sono gli archi che le collegano. I pesi sugli archi sono fissi a 1.
  * Ne risulta un grafo pesato(seppur con peso fisso), non orientato e fortemente connesso.
  * Da ogni stazione posso raggiungere tutte le altre e posso anche tornare indietro senza vincolo di direzione.
  * 
  * Punto 2.
  * Avendo a disposizione il grafo con il nodo di partenza e il nodo di arrivo, è possibile calcolare il tempo minimo,
- * ovvero la lunghezza del cammino minimo, tra P e A utilizzando una visita in ampiezza del grafo.
+ * ovvero la lunghezza del cammino minimo, tra un nodo P e un nodo A utilizzando una visita in ampiezza del grafo.
  * Dunque utilizziamo P come nodo d'origine e visitiamo i nodi adiacenti a P. Successivamente verranno ispezionati i nodi adiacenti e
  * visitati i loro "vicini" fino a raggiungere il nodo A. Al termine dell'esecuzione della visita vado a confrontare le lunghezze e restituisco
  * la lunghezza minima del cammino tra P e A.
@@ -123,8 +123,8 @@ func linea(metro rete,numLinea int) []*stazione{
  * Restituisce le stazioni vicine alla stazione in ingresso
  * Valutazione complessità:
  * l'assegnamento iniziale viene eseguito in O(1).
- * Il ciclo for esegue al più 3 iterazioni per popolare la slice delle vicine.
- * O(S) complessità finale, ma considerando le poche iterazioni è come se fosse tempo costante.
+ * Il ciclo for esegue al più poche iterazioni per popolare la slice di stringhe con le stazioni vicine
+ * O(S) complessità finale, ma c'è da considera che una stazione in una rete metropolitana simile non avrà mai S grande di stazioni vicine.
 */
 func stazioniVicine(metro rete, s string) []string{
 	vicine := metro.adj[s]
@@ -139,20 +139,20 @@ func stazioniVicine(metro rete, s string) []string{
  * Restituisce la slice contenente i nomi delle stazioni di interscambio
  * Valutazione complessità:
  * Il primo ciclo scorre gli elementi della mappa metro.adj
- * Il secondo ciclo scorre la slice stazioni
+ * Il secondo ciclo scorre la slice stazioni collegata alla mappa come valore
  * Consideriamo R il numero di chiavi nella mappa e S il numero di stazioni per chiave
  * Complessità finale O(R*S)
 */
 func interscambio(metro rete) []string{
-	interscambiSet := make(map[string]bool)
+	trovatoScambio := make(map[string]bool)
     interscambi := make([]string, 0)
 
     for _, stazioni := range metro.adj {
         for _, stazione := range stazioni {
             if stazione.interscambio {
                 nomeStazione := stazione.nome
-                if !interscambiSet[nomeStazione] {
-                    interscambiSet[nomeStazione] = true
+                if !trovatoScambio[nomeStazione] {
+                    trovatoScambio[nomeStazione] = true
                     interscambi = append(interscambi, nomeStazione)
                 }
             }
@@ -165,7 +165,7 @@ func interscambio(metro rete) []string{
 /*
  * Restituisce true se due stazioni sono sulla stessa linea altrimenti false.
  * Valutazione complessità:
- * O(1) sono tutte operazioni elementari.
+ * O(1) sono tutte operazioni elementari, prelevo direttamente dalla mappa.
 */
 func stessaLinea(metro rete,s1 string,s2 string) bool{
 	stazione1 := metro.adj[s1][len(metro.adj[s1])-1].linea
