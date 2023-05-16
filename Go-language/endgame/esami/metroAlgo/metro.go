@@ -187,30 +187,39 @@ func stessaLinea(metro rete,s1 string,s2 string) bool{
  * Il terzo ciclo itera su tutte le stazioni adiacenti, un numero R di stazioni adiacenti.
  * Complessità finale O(V) * O(V) + O(E) = O(V^2+E)
 */
-func tempo(metro rete, partenza string, arrivo string) int {
+func tempo(metro rete, partenza string, arrivo string) ([]string,int) {
     coda := []string{partenza}
     aux := make(map[string]bool)
     aux[partenza] = true
     result := 0
+	percorso := make(map[string][]string)
+	percorso[partenza] = []string{partenza}
+
     for len(coda) > 0 {
         livello := len(coda)
         for i := 0; i < livello; i++ {
             partenza := coda[0]
             coda = coda[1:]
-			fmt.Println("Sto visitando i vicini di: " + partenza)
+			//fmt.Println("Sto visitando i vicini di: " + partenza)
             for _, vicino := range metro.adj[partenza] {
                 if !aux[vicino.nome] {
                     if vicino.nome == arrivo {
-                        return result + 1
+						percorso[vicino.nome] = append(percorso[partenza],vicino.nome)
+						return percorso[vicino.nome], result + 1
                     }
                     coda = append(coda, vicino.nome)
                     aux[vicino.nome] = true
+					//Per evitare perdita di informazioni nel caso si abbia più di un vicino non visitato
+					//Creo copie distinte del percorso per ogni vicino non visitato e le aggiorno separatamente
+					nuovoPercorso := make([]string,len(percorso[partenza]))
+					copy(nuovoPercorso,percorso[partenza])
+					percorso[vicino.nome] = append(nuovoPercorso,vicino.nome)
                 }
             }
         }
         result++
     }
-	return result
+	return nil,-1
 }
 
 //main di test per le funzioni
@@ -243,6 +252,8 @@ func main(){
 	s1,s2 = "",""
 	fmt.Scan(&s1,&s2)
 	fmt.Println()
-	time := tempo(metro,s1,s2)
+	percorso,time := tempo(metro,s1,s2)
 	fmt.Println("Tempo minimo: " + strconv.Itoa(time))
+	fmt.Println("Percorso da effettuare: ")
+	fmt.Println(percorso)
 }
