@@ -64,6 +64,47 @@ func stampaDaZero(dl *circNode) {
 	}
 }
 
+
+/*
+ * funzione che sposta il nodo puntato dato in ingresso dl
+ * all'interno della lista circolare in base al suo valore.
+ * Se è positivo viene spostato in avanti del suo valore.
+ * Se è negativo viene spostato indietro del suo valore.
+ * Esempio con la lista 3 -2 0 1 7:
+ * Se sposto il nodo 3 la lista diventa: -2 0 1 3 7 
+ * Se sposto il nodo -2 la lista diventa: 3 0 1 -2 7
+*/
+func sposta(dl *circNode) {
+	val := dl.head.data
+	move := dl.head
+	p := dl.head
+	if val > 0 {
+		for i:= 0;i <= val;i++{
+			p = p.next
+		}
+		p.prev = p
+		p.next = p.next.next
+		p = move
+		
+	}else {
+		for i:= 0;i < +val;i++{
+			p = p.prev
+		}
+		p.prev = p
+		p.next = p.next.next
+		p = move
+
+	}
+	current := dl.head
+	current = current.next
+	fmt.Printf("%d ",dl.head.data)
+	for current != dl.head{
+		fmt.Printf("%d ",current.data)
+		current = current.next
+	}
+	fmt.Println()
+
+}
 //main di test per le funzioni
 func main(){
 	c := &circNode{head:nil,tail:nil}
@@ -93,5 +134,6 @@ func main(){
 		//aggiungo il valore letto alla lista circolare
 		c2 = insert(c2,val)
 	}
+	sposta(c2)
 }
 
