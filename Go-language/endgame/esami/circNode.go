@@ -64,6 +64,7 @@ func stampaDaZero(dl *circNode) {
 	}
 }
 
+//main di test per le funzioni
 func main(){
 	c := &circNode{head:nil,tail:nil}
 	c = insert(c,3)
@@ -80,6 +81,7 @@ func main(){
 	}
 	fmt.Println()
 	stampaDaZero(c)
+	fmt.Println()
 	//inserimento da stdin
 	c2 := &circNode{head:nil,tail:nil}
 	scanner := bufio.NewScanner(os.Stdin)
@@ -89,7 +91,7 @@ func main(){
 		}
 		val,_ := strconv.Atoi(scanner.Text())
 		//aggiungo il valore letto alla lista circolare
-		insert(c2,val)
+		c2 = insert(c2,val)
 	}
 }
 
