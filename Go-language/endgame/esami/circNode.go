@@ -96,37 +96,50 @@ func stampaIndietro(c *circNode) {
  * Esempio con la lista 3 -2 0 1 7:
  * Se sposto il nodo 3 la lista diventa: -2 0 1 3 7 
  * Se sposto il nodo -2 la lista diventa: 3 0 1 -2 7
+ * Valutazione complessità: O(n) lineare
 */
-func sposta(p *Node) {
+func (dl *circNode) sposta(p *Node) {
 	data := p.data
-	s := p
-	if p.data > 0{
-		for i:= 0; i < data;i++ {
-			p = p.next
+	if data == 0{
+		return
+	}
+	//Tolgo il nodo da spostare dalla sua posizione attuale
+	prev := p.prev
+	next := p.next
+	prev.next = next
+	next.prev = prev
+	//mi salvo il puntatore al nodo da spostare
+	move := p
+	if data > 0{
+		for i:= 0; i <= data;i++ {
+			move = move.next
 		}
-		newNode := &Node{data,nil,nil}
-		newNode.next = p.next
-		newNode.prev = p.prev
-		p.next = newNode
-		//deleteNode(s)
+		//inserisco il nodo nella posizione nuova
+		movePrev := move.prev
+		movePrev.next = p
+		move.prev = p
+		p.prev = movePrev
+		p.next = move
 	}else{
-		for i := 0;i >= data ;i--{
-			p = p.prev
+		for i := 0;i > data ;i--{
+			move = move.prev
 		}
-		newNode := &Node{data,nil,nil}
-		newNode.next = p.next
-		newNode.prev = p.prev
-		p.next = newNode
-		//deleteNode(s)
+		//inserisco il nodo nella posizione nuova
+		movePrev := move.prev
+		movePrev.next = p
+		move.prev = p
+		p.prev = movePrev
+		p.next = move
+	}
+	//se necessario aggiorno testa e/o coda
+	if dl.head == move{
+		dl.head = p
+	}
+	if dl.tail == move{
+		dl.tail = p
 	}
 }
 
-func deleteNode(node *Node){
-	head := node.next
-    tail := node.prev
-	tail.next = head
-	head.prev = tail
-}
 
 //main di test per le funzioni
 func main(){
@@ -157,11 +170,11 @@ func main(){
 	}
 	//test sposta con nodo 3
 	fmt.Println("Test funzione sposta con nodo di valore 3")
-	sposta(c2.head)
+	c2.sposta(c2.head)
 	stampaAvanti(c2)
 	//test sposta con nodo -2
 	fmt.Println("Test funzione sposta con nodo di valore -2")
-	sposta(c.head.next)
+	c.sposta(c.head.next)
 	stampaAvanti(c)
 }
 
