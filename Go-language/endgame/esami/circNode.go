@@ -64,6 +64,29 @@ func stampaDaZero(dl *circNode) {
 	}
 }
 
+func stampaAvanti(c *circNode){
+	current := c.head
+	current = current.next
+	fmt.Println("Stampa andando dalla testa alla coda")
+	fmt.Printf("%d ",c.head.data)
+	for current != c.head{
+		fmt.Printf("%d ",current.data)
+		current = current.next
+	}
+	fmt.Println()
+}
+
+func stampaIndietro(c *circNode) {
+	current := c.head
+	current = current.prev
+	fmt.Println("Stampa andando dalla coda alla testa")
+	for current != c.head{
+		fmt.Printf("%d ",current.data)
+		current = current.prev
+	}
+	fmt.Printf("%d ",c.head.data)
+	fmt.Println()
+}
 
 /*
  * funzione che sposta il nodo puntato dato in ingresso dl
@@ -74,37 +97,37 @@ func stampaDaZero(dl *circNode) {
  * Se sposto il nodo 3 la lista diventa: -2 0 1 3 7 
  * Se sposto il nodo -2 la lista diventa: 3 0 1 -2 7
 */
-func sposta(dl *circNode) {
-	val := dl.head.data
-	move := dl.head
-	p := dl.head
-	if val > 0 {
-		for i:= 0;i <= val;i++{
+func sposta(p *Node) {
+	data := p.data
+	s := p
+	if p.data > 0{
+		for i:= 0; i < data;i++ {
 			p = p.next
 		}
-		p.prev = p
-		p.next = p.next.next
-		p = move
-		
-	}else {
-		for i:= 0;i < +val;i++{
+		newNode := &Node{data,nil,nil}
+		newNode.next = p.next
+		newNode.prev = p.prev
+		p.next = newNode
+		//deleteNode(s)
+	}else{
+		for i := 0;i >= data ;i--{
 			p = p.prev
 		}
-		p.prev = p
-		p.next = p.next.next
-		p = move
-
+		newNode := &Node{data,nil,nil}
+		newNode.next = p.next
+		newNode.prev = p.prev
+		p.next = newNode
+		//deleteNode(s)
 	}
-	current := dl.head
-	current = current.next
-	fmt.Printf("%d ",dl.head.data)
-	for current != dl.head{
-		fmt.Printf("%d ",current.data)
-		current = current.next
-	}
-	fmt.Println()
-
 }
+
+func deleteNode(node *Node){
+	head := node.next
+    tail := node.prev
+	tail.next = head
+	head.prev = tail
+}
+
 //main di test per le funzioni
 func main(){
 	c := &circNode{head:nil,tail:nil}
@@ -113,17 +136,15 @@ func main(){
 	c = insert(c,0)
 	c = insert(c,1)
 	c = insert(c,7)
-	current := c.head
-	current = current.next
-	fmt.Printf("%d ",c.head.data)
-	for current != c.head{
-		fmt.Printf("%d ",current.data)
-		current = current.next
-	}
-	fmt.Println()
+	//stampa della lista andando avanti
+	stampaAvanti(c)
+	//stampa della lista andando indietro
+	stampaIndietro(c)
+	//test funzione stampa da zero
+	fmt.Println("Stampa partendo dal nodo di valore zero")
 	stampaDaZero(c)
 	fmt.Println()
-	//inserimento da stdin
+	//inserimento da stdin e test funzioni
 	c2 := &circNode{head:nil,tail:nil}
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -134,6 +155,13 @@ func main(){
 		//aggiungo il valore letto alla lista circolare
 		c2 = insert(c2,val)
 	}
-	sposta(c2)
+	//test sposta con nodo 3
+	fmt.Println("Test funzione sposta con nodo di valore 3")
+	sposta(c2.head)
+	stampaAvanti(c2)
+	//test sposta con nodo -2
+	fmt.Println("Test funzione sposta con nodo di valore -2")
+	sposta(c.head.next)
+	stampaAvanti(c)
 }
 
