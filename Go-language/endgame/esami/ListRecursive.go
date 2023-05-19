@@ -19,13 +19,12 @@ func insert(l LinkedList,val int) LinkedList{
 	node.next = l.head
 	l.head = node
 	return l
-		
 }
 
 /*
  * La funzione f dato in ingresso il puntatore alla testa di una lista
- * e un intero k, stampa il nodo corrispondente all'indice k e restituisce
- * il numero di nodi che ha attraversato.
+ * e un intero k, stampa il contenuto del nodo in cui il risultato della chiamata ricorsiva sommata a 1 è uguale a k
+ * e restituisce il numero di nodi che ha attraversato. 
 */
 func f(p *Node,k int) int{
 	var a int
@@ -61,6 +60,9 @@ func main(){
 	printList(l)
 	fmt.Println("Chiamo f con k = 1")
 	a := f(l.head,1)
+	fmt.Println(a) //5
+	fmt.Println("Chiamo f con k = 3")
+	a = f(l.head,3)
 	fmt.Println(a) //5
 	fmt.Println("Chiamo f con k = 5")
 	a = f(l.head,5)
