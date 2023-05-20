@@ -1,0 +1,15 @@
+letto: sedia + bambola
+scacchi: 5
+lavatrice: lampada + frigorifero
+libreria: 2
+tavolo: cassetto - valigia
+valigia: 3
+posate: 4
+cassetto: 5
+tazza: 2
+bambola: mensola * scacchi
+lampada: 4
+sedia: lavatrice / posate
+frigorifero: tazza * tavolo
+mensola: microonde - libreria
+microonde: 32
