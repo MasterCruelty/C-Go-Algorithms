@@ -18,8 +18,10 @@ package main
  * d) Dato un nodo a, se a è il nodo radice, non faccio niente.
  *    Altrimenti, a avrà un padre e lo aggiungo alla lista dei nodi a cui serve a, iterando fino alla radice.
  *
- * È opportuno implementare la struttura dati scelta con una struct che definisce il nodo con un campo per il nome e due campi left right per i figli sx e dx.
- * Inoltre ho una mappa che funge da tabella dei padri per segnare il padre di ogni nodo.
+ * È opportuno implementare la struttura dati scelta con una struct che definisce il nodo con una serie di campi che indica nome, valore, operazione e i figli.
+ * Inoltre ho un'altra struct contenente una mappa che funge da tabella dei padri per segnare il padre di ogni nodo, poi un'ulteriore mappa che contiene tutti i
+ * nodi, con chiave il nome del nodo e il valore la struct del nodo corrispondente.
+ * 
  *
 */
 import (
@@ -52,13 +54,13 @@ func calcolaNumero(t tree,ogg *treeNode) int {
 		dx := calcolaNumero(t,t.nodi[ogg.dx])
 		switch ogg.op {
 			case "+":
-				result = sx+dx
+				result = sx + dx
 				break
 			case "-":
-				result = sx-dx
+				result = sx - dx
 				break
 			case "*":
-				result = sx *dx
+				result = sx * dx
 				break
 			case "/":
 				result = sx / dx
@@ -87,9 +89,19 @@ func main(){
 			tr.nodi[name] = &treeNode{name,val,"","",""}
 		}
 	}
+	fmt.Println()
+	fmt.Println("test calcolaNumero:")
 	a := calcolaNumero(*tr,tr.nodi["microonde"])
-	fmt.Println(a)
-	a = calcolaNumero(*tr,tr.nodi["tavolo"])
-	fmt.Println(a)
+	fmt.Println("valore microonde: ",a)
+	a = calcolaNumero(*tr,tr.nodi["mensola"])
+	fmt.Println("valore mensole: ",a)
+	a = calcolaNumero(*tr,tr.nodi["frigorifero"])
+	fmt.Println("valore frigorifero: ",a)
+	a = calcolaNumero(*tr,tr.nodi["sedia"])
+	fmt.Println("valore sedia: ",a)
+	a = calcolaNumero(*tr,tr.nodi["bambola"])
+	fmt.Println("valore bambola: ",a)
+	a = calcolaNumero(*tr,tr.nodi["letto"])
+	fmt.Println("valore letto: ",a)
 
 }
