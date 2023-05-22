@@ -45,6 +45,12 @@ type  tree struct {
 	nodi map[string]*treeNode
 }
 
+/*
+ * funzione che svolge il compito assegnato al punto a
+ * Valutazione complessità:
+ * La complessità dipende dall'altezza dell'albero, 
+ * quindi questa funzione ha costo O(logn)
+*/
 func calcolaNumero(t tree,ogg *treeNode) int {
 	result := 0
 	if ogg.value != 0{
@@ -103,5 +109,4 @@ func main(){
 	fmt.Println("valore bambola: ",a)
 	a = calcolaNumero(*tr,tr.nodi["letto"])
 	fmt.Println("valore letto: ",a)
-
 }
