@@ -15,8 +15,8 @@ package main
  * c) Inizio a fare una visita in profondità dell'albero, per esempio in ordine simmetrico, calcolando per ogni nodo la funzione associata al compito a.
  *    Tutti questi numeri li metto dentro un array e successivamente lo ordino in ordine crescente.
  *
- * d) Dato un nodo a, se a è il nodo radice, non faccio niente.
- *    Altrimenti, a avrà un padre e lo aggiungo alla lista dei nodi a cui serve a, iterando fino alla radice.
+ * d) Dato un nodo a, se a è il nodo radice, non restituisco niente.
+ *    Altrimenti, a avrà un padre e lo aggiungo alla lista dei nodi a cui serve a e continuo ricorsivamente visitando l'albero in profondità.
  *
  * È opportuno implementare la struttura dati scelta con una struct che definisce il nodo con una serie di campi che indica nome, valore, operazione e i figli.
  * Inoltre ho un'altra struct contenente una mappa che funge da tabella dei padri per segnare il padre di ogni nodo, poi un'ulteriore mappa che contiene tutti i
@@ -76,7 +76,20 @@ func calcolaNumero(t tree,ogg *treeNode) int {
 	return result
 }
 
-
+/*
+ * funzione che svolge il compito assegnato al punto d.
+ * Valutazione complessità:
+ * la complessità dipende dall'altezza dell'albero, 
+ * quindi questa funzione ha costo O(logn)
+*/
+func oggettiNecessari(t tree,ogg *treeNode) string {
+	padre := t.padri[ogg.nome]
+	if t.padri[padre] == ""{
+		return padre
+	}else{
+		return padre + " " + oggettiNecessari(t,t.nodi[padre])
+	}
+}
 
 func main(){
 	tr := &tree{make(map[string]string),make(map[string]*treeNode)}
@@ -109,4 +122,19 @@ func main(){
 	fmt.Println("valore bambola: ",a)
 	a = calcolaNumero(*tr,tr.nodi["letto"])
 	fmt.Println("valore letto: ",a)
+	fmt.Println()
+	fmt.Println("test oggettiNecessari:")
+	b := oggettiNecessari(*tr,tr.nodi["microonde"])
+	fmt.Println("oggetti a cui serve microonde: ",b)
+	b = oggettiNecessari(*tr,tr.nodi["mensola"])
+	fmt.Println("oggetti a cui serve mensola: ",b)
+	b = oggettiNecessari(*tr,tr.nodi["frigorifero"])
+	fmt.Println("oggetti a cui serve frigorifero: ",b)
+	b = oggettiNecessari(*tr,tr.nodi["sedia"])
+	fmt.Println("oggetti a cui serve sedia: ",b)
+	b = oggettiNecessari(*tr,tr.nodi["bambola"])
+	fmt.Println("oggetti a cui serve bambola: ",b)
+	b = oggettiNecessari(*tr,tr.nodi["letto"])
+	fmt.Println("oggetti a cui serve letto: ",b)
+
 }
