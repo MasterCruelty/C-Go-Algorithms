@@ -30,6 +30,7 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
+//	"sort"
 )
 
 type treeNode struct{
@@ -91,13 +92,29 @@ func oggettiNecessari(t tree,ogg *treeNode) string {
 	}
 }
 
+/*
+ * funzione che svolge il compito assegnato al punto c
+*/
+func stampaNumeri(t tree,ogg *treeNode){
+	if ogg == nil{
+		return
+	}
+	stampaNumeri(t,t.nodi[ogg.sx])
+	if ogg.value != 0{
+		fmt.Println(ogg.value)
+		//arr = append(arr,ogg.value)
+	}
+	stampaNumeri(t,t.nodi[ogg.dx])
+}
+
 func main(){
 	tr := &tree{make(map[string]string),make(map[string]*treeNode)}
 	scanner := bufio.NewScanner(os.Stdin)
+	name := ""
 	for scanner.Scan(){
 		line := scanner.Text()
 		s := strings.Split(line,": ")
-		name := s[0]
+		name = s[0]
 		val,err := strconv.Atoi(s[1])
 		if err != nil{
 			op := strings.Fields(s[1])
@@ -108,6 +125,26 @@ func main(){
 			tr.nodi[name] = &treeNode{name,val,"","",""}
 		}
 	}
+	fmt.Println()
+	fmt.Println("test stampaNumeri:")
+	//cerco la radice
+	node := tr.nodi[name]
+	p := oggettiNecessari(*tr,node)
+	root := ""
+	if p == ""{
+		root = name
+		fmt.Println(root)
+	}else{
+		split := strings.Fields(p)
+		root   = split[len(split)-1]
+		fmt.Println(root)
+	}
+	//chiamo stampaNumeri sulla radice
+	//arr := make([]int,0)
+	stampaNumeri(*tr,tr.nodi[string(root)])
+	//sort.Slice(arr,func(i,j int) bool{
+	//		return arr[i] <arr[j] })
+	//fmt.Println(arr)
 	fmt.Println()
 	fmt.Println("test calcolaNumero:")
 	a := calcolaNumero(*tr,tr.nodi["microonde"])
