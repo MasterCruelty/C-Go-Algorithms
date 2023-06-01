@@ -8,6 +8,16 @@ import (
 	"strings"
 )
 
+/*
+ * C'è una rete con numero arbitrario n di interruttori. Ogni interruttore è collegato con il successivo e il precedente.
+ * L'ultimo è collegato con il primo e il penultimo, il primo è collegato con l'ultimo e il secondo.
+ *  
+*/
+
+
+
+
+
 //slice di bool per rappresentare lo stato d'accensione
 type conf []bool
 
