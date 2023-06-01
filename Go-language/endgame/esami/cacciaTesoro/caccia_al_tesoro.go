@@ -30,7 +30,7 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
-//	"sort"
+	"sort"
 )
 
 type treeNode struct{
@@ -100,11 +100,18 @@ func stampaNumeri(t tree,ogg *treeNode){
 		return
 	}
 	stampaNumeri(t,t.nodi[ogg.sx])
-	if ogg.value != 0{
-		fmt.Println(ogg.value)
-		//arr = append(arr,ogg.value)
-	}
+	fmt.Println(ogg.value)
 	stampaNumeri(t,t.nodi[ogg.dx])
+}
+
+func sortedTree(t tree, ogg *treeNode) *treeNode{
+	if ogg == nil{
+		return
+	}
+	if ogg.value == 0 {
+	
+	}
+
 }
 
 func main(){
@@ -133,15 +140,14 @@ func main(){
 	root := ""
 	if p == ""{
 		root = name
-		fmt.Println(root)
 	}else{
 		split := strings.Fields(p)
 		root   = split[len(split)-1]
-		fmt.Println(root)
 	}
 	//chiamo stampaNumeri sulla radice
-	//arr := make([]int,0)
-	stampaNumeri(*tr,tr.nodi[string(root)])
+	arr := make([]int,0)
+	arr = stampaNumeri(*tr,tr.nodi[string(root)],arr)
+	fmt.Println(arr)
 	//sort.Slice(arr,func(i,j int) bool{
 	//		return arr[i] <arr[j] })
 	//fmt.Println(arr)
