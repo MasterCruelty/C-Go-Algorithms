@@ -1,0 +1,17 @@
+Definizione struttura bit_node compatibile con funzione f
+
+type Bit_node struct{
+	l *Bit_node
+	r *Bit_node
+	item int
+	y int
+}
+
+Considerare il caso in cui f viene chiamata con secondo argomento zero
+a) I valori di p.item e p.y coincidono, viene solamente effettuata una visita in preorder
+b) altezza 4
+c) 8 chiamate
+d) fa una visita in preorder come per il punto a
+e) newitem
+f) proporzionale all'altezza dell'albero
+g) proporzionale al numero di nodi dell'albero
