@@ -1,8 +1,3 @@
-
-
-
-
-
 1. Cosa stampa la funzione f se viene invocata sulla radice dell'albero di sinistra(b1.jpg)?
 - Risposta: 1 39 15 79
 2. Cosa stampa la funzione f se viene invocata sulla radice dell'albero di destra(b2.jpg)?
@@ -14,11 +9,11 @@
 - L'altezza dello stack è proporzionale all'altezza dell'albero che è definita come la lunghezza del cammino più lungo dalla radice a una foglia.
   La visita fatta dalla funzione è in profondità e ricorsivamente lo stack ha altezza logaritmica.
 5. In generale, quante righe stampa la funzione se invocata sulla radice di un albero binario qualunque?
-- 
+- Tante righe quanti sono i nodi foglia. 
 6. Cosa stampa la funzione se invocata sulla radice di un qualunque albero binario con solo numeri pari?
--
+- Stampa tante righe vuote quanti sono i nodi foglia dell'albero.
 7. Completare la frase: se root è il puntatore alla radice di un albero binario, allora l'invocazione della funzione f(root)
-                        produce in output...
+                        produce in output... il risultato di una visita in ordine anticipato dei nodi contenenti valori dispari.
 
 
 
