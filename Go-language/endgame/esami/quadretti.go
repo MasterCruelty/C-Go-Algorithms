@@ -46,7 +46,8 @@ import (
  *    - Se `c` è una casella nera o la casella in basso a destra, assegnare `F[c] = 0`, poiché non sono possibili cammini in queste caselle.
  *    - Se `c` è una casella dell'ultima riga, assegnare `F[c] = 1`, poiché esiste un solo cammino che arriva alla casella in basso a destra partendo da questa casella.
  *    - Se `c` è una casella dell'ultima colonna, assegnare `F[c] = 0`, poiché non è possibile spostarsi lateralmente verso destra.
- *    - Se `c` è una casella bianca non di bordo, assegnare `F[c] = F[c+1] + F[c+riga]`, dove `c+1` rappresenta la casella a destra di `c` e `c+riga` rappresenta la casella sotto `c`. Questo calcolo tiene conto dei cammini che possono arrivare a `c` dalla destra e dal basso.
+ *    - Se `c` è una casella bianca non di bordo, assegnare `F[c] = F[c+1] + F[c+riga]`, dove `c+1` rappresenta la casella a destra di `c` 
+ *      e `c+riga` rappresenta la casella sotto `c`. Questo calcolo tiene conto dei cammini che possono arrivare a `c` dalla destra e dal basso.
  * 3. Restituzione del risultato:
  *    - Restituire il valore `F[0][0]`, che rappresenta il numero di cammini completi dalla casella in alto a sinistra alla casella in basso a destra.
  *
