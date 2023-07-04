@@ -101,40 +101,6 @@ func camminiCompleti2(grid [][]int) int {
 }
 
 
-func camminiCompleti(M [][]int) int {
-	n := len(M) + 1
-	m := len(M[0]) + 1
-	if M[0][0] == 1 || M[n-2][m-2] == 1 {
-		return 0
-	}
-
-	C := make([][]int, n)
-	for i := 0; i < n; i++ {
-		C[i] = make([]int, m)
-	}
-
-	for i := 1; i < n; i++ {
-		for j := 1; j < m; j++ {
-			C[i][j] = M[i-1][j-1]
-		}
-	}
-
-	C[1][1] = 2
-
-	for i := 1; i < n; i++ {
-		for j := 1; j < m; j++ {
-			if C[i-1][j] == 1 && C[i][j] != 1 {
-				C[i][j] += C[i][j-1]
-			} else if C[i][j-1] == 1 && C[i][j] != 1 {
-				C[i][j] += C[i-1][j]
-			} else if C[i][j] != 1 {
-				C[i][j] += C[i-1][j] + C[i][j-1]
-			}
-		}
-	}
-	return C[n-1][m-1]  / 2
-}
-
 func main() {
 	var n, m int
 	fmt.Scan(&n, &m)
@@ -148,7 +114,6 @@ func main() {
 			fmt.Scan(&M[i][j])
 		}
 	}
-	fmt.Println(camminiCompleti(M))
 	fmt.Println(camminiCompleti2(M))
 }
 
