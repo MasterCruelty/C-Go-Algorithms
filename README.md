@@ -5,4 +5,4 @@ bunch of source files in C and Go language to prepare my exam of Algorithm & dat
 
 Feel free to contribute and improve any program.
 
-Disclaimer: Many comments and documentation are in Italian.
+Disclaimer: Many comments and documentation are in Italian. The LaTeX file containing some Algorithm theory is in english.
