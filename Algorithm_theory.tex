@@ -248,11 +248,53 @@ Anyway there's a clever way to do this and it's called \textbf{merge}.
          2 & 5 & 6 & 9 & 10 & 12 & 15 & 20\\
     };
 \end{tikzpicture}
-
+\subsection{merge}
 The merge procedure works as this: \\
 at every step I compare the first two numbers and the mininum go in the final array. When one of the sorted array ends, I append the remaining numbers of the other array without compare anything.\\
 How much it costs? Well, every compare will put an element in the right place, so in the worst case I compare all the elements and the remaining is only one element in the other array. So the merge procedure has complexity in the order of $O(n)$ because I do \textbf{n-1} comparisons in the worst case.\\
 Here below I drop the pseudocode of a simple version of the merge procedure, which it isn't perfectly optimized in memory.\\
 
+\begin{lstlisting}[caption={\\\textit{Merge algorithm.}}]
+Algorithm Merge(Array B[0,..,lb-1], Array C[0,..,lc-1]) --> Array 
+	Be X[o,..,lb+lc-1] an array
+	i1,i2,k <-- 0
+	while i1 < lb and i2 < lc do
+		if B[i1] <= C[i2] then
+			X[k] <-- B[i1]
+			i1 <-- i1+1
+		else
+			X[k] <-- C[i2]
+			i2 <-- i2+1
+		k <-- k +1
+	//The remaining elements are in B	
+	if i1 < lb then
+		for j <- i1 to lb-1 do
+			X[k] <-- B[j]
+			k <-- k+1
+	else
+		//The remaining elements are in C
+		for j <--i2 to lc-1 do
+			X[k] <-- C[j]
+			k <-- k+1
+	return x
+\end{lstlisting}
+\leavevmode \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+Let's remember two corollaries we will use later:\\
+$$\sum_{i = 0}^{k-1} 2^i = 2^k -1$$
+If you convert in binary, you can see that all the power of two are 1 with all zeros behind. If you sum those all you obtain $2^k$. \\
+Now the second corollary:\\
+$\forall n \in \mathcal{N} \ \exists $ a power of two $N \ : \ n \leq N \leq 2n$
+
+\subsection{Using merge inside Merge sort}
+Let's define Merge sort recursively:\\
+If $n \leq 1$ then A is already sorted, I do nothing.\\
+Otherwise:\\
+\begin{enumerate}
+\item Divide A by two equal parts.
+\item Sort them separately.
+\item Merge them in a unique array(merge algorithm)
+\end{enumerate}
+
+I'll show here below the pseudocode of the Merge sort, which use our merge algorithm written before. So this algorithm suffers too of the missing optimization in memory, but it will be good enough to do our complexity analysis.
 
 \end{document}
