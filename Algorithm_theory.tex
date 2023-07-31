@@ -635,9 +635,92 @@ $h+1 \leq n \leq 2^{h+1} - 1 \Rightarrow \log_2(n+1) \leq h \leq n-1 $
 \end{center}
 \end{large}
 \subsection{Perfectly balanced tree}
+Well after what we said, we know that our focus need to be to balance the height of a tree because if a tree is well filled of nodes balanced on height, we can do operations in the order of $\Theta(\log(n))$.\\
+This kind of tree has the following rule for insertion of new nodes:\\
+For every node, the difference of the amount of nodes between the left subtree and the right subtree in absolute value can be at most 1. Here below a couple of example, the last one it isn't perfectly balanced.\\
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}} 
+            child{node{44}}
+        };
+\end{tikzpicture}
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}} 
+            child{node{44}
+            	child{node{41}}}
+        };
+\end{tikzpicture}
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}} 
+            child{node{44}
+            	child{node{41}
+            		child{node{34}}}}
+        };
+\end{tikzpicture}
 
+The height is in the order of $\Theta(\log(n))$ but if you consider the balance condition, you can easily see that in some case an insertion can cost the restructuring of the entire tree, which costs linear time $\Theta(n)$.
 \subsection{AVL tree}
-
+This kind of tree has a different balance condition, which is the following:\\
+for every node, the difference of the height between the left subtree and the right subtree can be at most 1. Here below a couple of example, the last one it isn't avl.\\
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}} 
+            child{node{44}}
+        };
+\end{tikzpicture}
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}
+            	child{node{50}}} 
+            child{node{44}
+            	child{node{43}}}
+        };
+\end{tikzpicture}
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}
+            	child{node{50}
+            		child{node{48}}}
+            	child{node{52}}} 
+            child{node{44}
+            	child{node{43}}}
+        };
+\end{tikzpicture}
+You can prove that the height of AVL tree is always in the order of $\Theta(\log(n))$.\\
+So \textbf{insertion, search and delete} can be done in $\Theta(\log(n))$.\\
+Whenever an insertion make the tree unbalanced, there's a method to re-balance the tree by making a rotation of the involved nodes. 
 \subsection{B-tree(Bayer)}
 
 \subsection{Heap}
