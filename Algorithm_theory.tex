@@ -310,6 +310,15 @@ Algorithm Mergesort(Array A[0,..,n-1)
 		Mergesort(C)
 	A <-- merge(B,C)
 \end{lstlisting}
+\leavevmode \\ \\ \\ \\ \\
+The amount of comparisons made are:\\
+\begin{enumerate}
+\item Comparisons of Mergesort(B).
+\item Comparisons of Mergesort(C).
+\item Comparisons of merge(B,C).
+\end{enumerate}
+
+The equation resulting from this observation is here below and we're going to solve it.
 
 \begin{equation*}
 	\left\{ \begin{aligned}
@@ -317,5 +326,38 @@ Algorithm Mergesort(Array A[0,..,n-1)
 	C\left(\floor*{\cfrac{n}{2}}\right) + 	C\left(\ceil*{\cfrac{n}{2}}\right) + C_{merge}(n) \ \ otherwise
 	\end{aligned} \right.
 \end{equation*}
+\leavevmode \\ \\
+Let's consider our \textbf{n} is even. The equation becomes:\\
+
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	2C\left(\cfrac{n}{2}\right) + C_{merge}(n) \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
+
+By solving this equation we're going to demonstrate the amount of comparisons Mergesort do until we have a sorted array in the end. We'll solve by substitution.\\
+
+$C(n) = 2C\left(\cfrac{n}{2}\right) + n-1 =$
+
+$2\left[2C\left(\cfrac{n}{2^2}\right) + \cfrac{n}{2} -1 \right] + n-1=$
+
+$2^2\cdot C\left(\cfrac{n}{2^2}\right) + n-2 + n-1=$
+
+$2^2\cdot \left[2C\left(\cfrac{n}{2^3}\right) + \cfrac{n}{2^2} -1 \right] + n-2 n-1=$
+
+$2^3C\left(\cfrac{n}{2^3}\right) + n-2^3 + n-2^1 + n - 2^0=$
+
+$$2^3C\left(\cfrac{n}{2^3}\right) + 3n - \sum_{i=0}^{3-1}2^i=$$
+
+$$2^kC\left(\cfrac{n}{2^k}\right) + kn - \sum_{i=0}^{k-1}2^i=$$
+
+We know that $\sum_{i=0}^{k-1}2^i = 2^k - -1$ \\
+Now let's manipulate to the base case:\\
+$\cfrac{n}{2^k} = 1 \Rightarrow n = 2^k \Rightarrow k = \log_2{n}$
+Let's substitute now:\\
+$C(n) = n\cdot C(1) + n\cdot\log_2{n} - n + 1 $
+
+
 
 \end{document}
