@@ -513,7 +513,43 @@ The average case is a little bit more difficult to analyze, but don't worry we'l
 	\end{aligned} \right.
 \end{equation*}
 
-\end{large}
+Let's manipulate this bad fraction.\\
+$$C(n) = \cfrac{1}{n}\sum_{k=0}^{n-1} n + \cfrac{1}{n}\sum_{k=0}^{n-1}C(k) + \cfrac{1}{n}\sum_{k=0}^{n-1}C(n-k-1)$$
+The first summation is equal to $n$.\\
+The second and the third are symmetrical because the second sum from 0 to n-1 and the third do the reverse thing. So:\\
+$$C(n) = n + \cfrac{2}{n} \sum_{i=0}^{n-1}C(i) = n + \cfrac{2}{n} \sum_{i=2}^{n-1}C(i)$$
+$C(0)=C(1)=0 \Rightarrow$ we can start from $i=2$
+Let's update the equation after these steps.\\
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	n + \cfrac{2}{n} \sum_{i=2}^{n-1} C(i) \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
+Now we'll demonstrate by induction that $C(n) \leq 2n\cdot ln(n) \ by \ n \geq 1$
+Base step: $n=1 \Rightarrow C(1) = 0 \Rightarrow 2ln(1) = 0 \Rightarrow OK$
+Induction step: $$C(n) = n + \cfrac{2}{n} \sum_{i=2}^{n-1} C(i) \leq n + \cfrac{2}{n} \sum_{i=2}^{n-1} 2i\cdot ln(i) = n + \cfrac{4}{n} \sum_{i=2}^{n-1} i \cdot ln(i)$$
 
+We'll make use of an integral to get the correct value of this summation and refactor this disequation.\\
+$$\sum_{i=1}^{n-1} i \cdot ln(i) \leq \int_{2}^{n} x\cdot ln(x) dx$$
+We can solve this integral by parts.\\
+$$\int_{2}^{n} x\cdot ln(x) dx = \cfrac{x^2}{2} \cdot ln(x) - \int_{2}^{n} \cfrac{1}{x} \cdot \cfrac{x^2}{2} dx = \cfrac{x^2}{2} \cdot ln(x) - \cfrac{x^2}{4}$$
+$\Rightarrow \left[\cfrac{x^2}{2} \cdot ln(x) - \cfrac{x^2}{4}\right]_2^n = \cfrac{n^2}{2}\cdot ln(n) - \cfrac{n^2}{4} - 2ln(2) + 1$
+
+$2ln(2) + 1 \simeq 0$
+
+So:\\
+$$\sum_{i=1}^{n-1} i \cdot ln(i) \leq \cfrac{n^2}{2}\cdot ln(n) - \cfrac{n^2}{4}$$
+Then we return to the original disequation and we update it:\\
+$$ n + \cfrac{4}{n} \sum_{i=2}^{n-1} i \cdot ln(i) \leq n + \cfrac{4}{n} \cdot \left(\cfrac{n^2}{2}\cdot ln(n) - \cfrac{n^2}{4} \right)$$
+$= n + 2n\cdot ln(n) -n = 2n\cdot ln(n) \Rightarrow Demonstrated.$
+
+So we have demonstrated that in average case: \\ 
+$C(n) \leq 2n\cdot ln(n) \simeq 1.39n\cdot ln(n)$\\
+
+Regarding the use of the stack for recursion, we can say that such as merge sort this version is less optimized about memory because we have two recursions call in queue.\\
+In average and best case we have a complexity in space in the order of $\Theta(log(n))$ but when the array is already sorted or almost sorted the amount of stack memory is in the order of $\Theta(n)$.
+\end{large}
+\section{Binary Trees}
 
 \end{document}
