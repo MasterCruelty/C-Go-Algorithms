@@ -229,4 +229,30 @@ How can we build an array that contains all the elements sorted?\\
 The first option we can think is to do a bubble sort and surely we can do it in $n^2$ steps. \\
 Anyway there's a clever way to do this and it's called \textbf{merge}.
 
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+        5 & 6 & 10 & 12 \\
+    };
+\end{tikzpicture}
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+         2 & 9 & 15 & 20\\
+    };
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+         2 & 5 & 6 & 9 & 10 & 12 & 15 & 20\\
+    };
+\end{tikzpicture}
+
+The merge procedure works as this: \\
+at every step I compare the first two numbers and the mininum go in the final array. When one of the sorted array ends, I append the remaining numbers of the other array without compare anything.\\
+How much it costs? Well, every compare will put an element in the right place, so in the worst case I compare all the elements and the remaining is only one element in the other array. So the merge procedure has complexity in the order of $O(n)$ because I do \textbf{n-1} comparisons in the worst case.\\
+Here below I drop the pseudocode of a simple version of the merge procedure, which it isn't perfectly optimized in memory.\\
+
+
 \end{document}
