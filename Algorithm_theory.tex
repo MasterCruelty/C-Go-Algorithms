@@ -380,13 +380,50 @@ The difference between these two sortin algorithm is quite simple. Inside Merges
     };
 \end{tikzpicture}
 
-We choose a pivot element. if $ n \leq pivot$  then those elements go on the left of pivot, otherwise they go on the right.\\
+We choose a pivot element, 42 for example. if $ n \leq pivot$  then those elements go on the left of pivot, otherwise they go on the right.\\
 \begin{tikzpicture}
     \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
     column sep=-\pgflinewidth]{
          9 & 12 & 18 & 42 & 44 & 55 & 64 & 94\\
     };
+    \foreach \i [evaluate=\i as \ni using {int(\i)},] in {4}{
+        \pgfmathtruncatemacro{\half}{(\i + 1) / 2}
+        \ifnum \i = 4
+        		\def\arrowlabel{Pivot}
+        	\fi
+        \draw [{Stealth}-, red!70] (A-1-\ni.south) -- ++(-90:5mm) node[below] {\arrowlabel};
+    }
 \end{tikzpicture}
 \end{center}
+
+How to do this? We use an algorithm we will call partition. We define two index \textbf{sx} and \textbf{dx}. sx starts at the beginning of array while dx starts from the end.\\
+\begin{enumerate}
+\item dx starts sliding until it finds an element $\leq$ of pivot.
+\item sx then starts sliding until it finfd an element $>$ of pivot.
+\item Then swap sx with dx.
+\item If sx $<$ dx, then swap dx with the pivot.
+\end{enumerate}
+
+Let's give a look to the pseudocode of partition here below.\\
+
+\begin{lstlisting}[caption={\\\textit{Partition algorithm.}}]
+Algorithm Partition(Array A[0,..,n-1],index i,index f) --> index
+	pivot <-- A[i]
+	sx <-- i
+	dx <-- f
+	while sx < dx do
+		do
+			dx <-- dx-1
+		while A[dx] > pivot
+		do
+			sx <-- sx+1
+		while sx < dx and A[sx] <= pivot
+		if sx < dx then
+			swap A[sx] with A[dx]
+	swap A[i] with A[dx]
+	return dx
+\end{lstlisting}
+
+The amount of comparisons is in the order of $O(n)$.
 
 \end{document}
