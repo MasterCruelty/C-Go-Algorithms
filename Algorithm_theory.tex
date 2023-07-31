@@ -730,6 +730,17 @@ A tree of t order is a B-tree T that:
 \item The root has at least 2 children.
 \item All the leafs are at the same depth.
 \end{itemize}
+\begin{large}
+Definition of content of the tree:\\
+\begin{itemize}
+\item Every leaf contains k sorted keys: \\
+$a_1 \leq a_2 \leq ... \leq a_k$
+\item $t-1 \leq k \leq 2t-1$
+\item every internal node with k+1 children and subtree $T_0,..,T_k$ contains k sorted keys $a_1 \leq a_2 \leq ... \leq a_k$ that:\\
+$\forall \ key \ C_i \ of \ T_i=0,..,k $ results that:\\
+$C_0 \leq a_1 \leq a_2 \leq \ldots \leq C_{k-1} \leq a_k \leq C_k$
+\end{itemize}
+\end{large} \leavevmode \\ \\
 An example with t=3:\\
 \begin{tikzpicture}[binary tree layout]
     \node{42}
