@@ -722,6 +722,26 @@ You can prove that the height of AVL tree is always in the order of $\Theta(\log
 So \textbf{insertion, search and delete} can be done in $\Theta(\log(n))$.\\
 Whenever an insertion make the tree unbalanced, there's a method to re-balance the tree by making a rotation of the involved nodes. 
 \subsection{B-tree(Bayer)}
-
+This kind of tree is useful to reduce the amount of access to the storage memory, which is $\simeq 100.000$ slower than RAM memory. Below the definition of structure:\\
+A tree of t order is a B-tree T that:
+\begin{itemize}
+\item Every node has at most 2t children
+\item every internal node that it isn't the root has at least t children.
+\item The root has at least 2 children.
+\item All the leafs are at the same depth.
+\end{itemize}
+An example with t=3:\\
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5 12 18}
+            child{node{7 8 10}}
+            child{node{12 14 16 }}
+        	child{node{17 19 }}
+        	child{node{20 22 25}}}
+        child{node{75 84 96 102}
+            child{node{44 47 50 }} 
+            child{node{52 57 60 }}
+        	child{node{65 70 82}}};
+\end{tikzpicture}
 \subsection{Heap}
 \end{document}
