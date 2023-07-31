@@ -754,5 +754,15 @@ An example with t=3:\\
             child{node{52 57 60 }}
         	child{node{65 70 82}}};
 \end{tikzpicture}
+
+Every node is just a sorted array containing an amount of keys $\leq 2t$. So if I would like to search for a node, I can so a binary search using $\Theta(\log(n))$ steps and then continue on the respective subtree if not found.\\
+So the total amount of steps is in the order of $\Theta(h\cdot \log(n))$ where h is the height of the tree.\\
+You can prove that the \textbf{h} is independent from the t value and the total amount of time spent is in the order of $\Theta(\log(n))$.\\ \\
+\begin{large}
+Now let's consider our original purpose in the use of this kind of tree.\\
+If I have $10^6= 1.000.000$ keys, if I use an AVL tree to do a search, the number of access I will do is $\log_2(10^6) \simeq 20$.\\ \\
+If I use a Bayer tree of order t=100 instead the amount of accesses to storage I will do is $\log_{100}(10^6) \simeq 3$.\\
+As you can see the improvement is significant.
+\end{large}
 \subsection{Heap}
 \end{document}
