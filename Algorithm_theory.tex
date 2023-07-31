@@ -765,4 +765,21 @@ If I use a Bayer tree of order t=100 instead the amount of accesses to storage I
 As you can see the improvement is significant.
 \end{large}
 \subsection{Heap}
+An heap is an almost complete binary tree. It means that the tree is full from the root to the penultimate level. On the last level we use the convention of put the leaf on the left when it is possible.\\
+You can prove that an almost complete binary tree has the height in the order of $\Theta(\log(n))$.\\
+If we consider a max-heap, every key contained in every node is always $\geq$ of the keys contained in the children. Here below an example of max-heap.\\
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{12}
+            child{node{7}
+            	child{node{4}}
+            	child{node{3}}}
+            child{node{5}}
+        }
+        child{node{40}
+            child{node{35}} 
+            child{node{37}}
+        };
+\end{tikzpicture}
+\section{Heap sort}
 \end{document}
