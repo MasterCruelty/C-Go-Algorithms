@@ -554,27 +554,84 @@ Regarding the use of the stack for recursion, we can say that such as merge sort
 In average and best case we have a complexity in space in the order of $\Theta(log(n))$ but when the array is already sorted or almost sorted the amount of stack memory is in the order of $\Theta(n)$.
 \end{large}
 \section{Binary Trees}
+A binary tree is a data structure which in a basic form has a special node called root and two nodes below attached called left child and right child. Below every child can be other child attached and so on. \\
+Here below there's an example of binary tree made of integer numbers.
+
 \begin{tikzpicture}[binary tree layout]
-    \node{a}
-        child{node{b}
-            child{node{d}
-                child{node{h}}
-                child{node{i}}
+    \node{42}
+        child{node{5}
+            child{node{7}
+                child{node{21}}
+                child{node{15}}
             }
-            child{node{e}
-                child{node{j}}
-                child{node{k}}
+            child{node{12}
+                child{node{33}}
+                child{node{89}}
             }
         }
-        child{node{c}
-            child{node{f}
-                child{node{l}}
-                child{node{m}}
+        child{node{75}
+            child{node{64}
+                child{node{96}}
+                child{node{1}}
             }
-            child{node{g}
-                child{node{n}}
-                child{node{o}}
+            child{node{24}
+                child{node{36}}
+                child{node{17}}
             }
         };
 \end{tikzpicture}
+
+A binary tree has different features linked to the structure is made of. There are three different way to visit all nodes recursively of a binary tree by using the depth-first search. \\
+\begin{enumerate}
+\item \textbf{preorder}: first the root, then the left subtree and the right subtree.
+\item \textbf{inorder}: first the left subtree, then the root and the right subtree.
+\item \textbf{postorder}: first the left subtree, then the right subtree and the root in the end.
+\end{enumerate}
+There are several types of binary trees. A first type we'll give a look is called \textbf{binary search tree}.\\
+This one has a little rule regarding the insertion of new nodes. For every node, the node on the left must be smaller and the node on the right must be bigger. Here below I'll show an example of a binary search tree.
+
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{5}
+            child{node{7}}
+            child{node{12}}
+        }
+        child{node{75}
+            child{node{64}} 
+            child{node{44}}
+        };
+\end{tikzpicture}
+
+This structure gain some advantages because if I want for example find the maximum value I need to go only right until I find the value.\\
+You can demonstrate that the amount of steps in time that \textbf{insertion},\textbf{search} and \textbf{delete} operations do, depend only from the height of the tree.\\
+So we have to compare the amount of nodes in a tree with the respective height.\\
+If we have to insert some nodes in a binary search tree and all of them are sorted, we can say that the height of the tree is equal to $h=n-1$ where n is the amount of nodes and h the height.
+
+\begin{tikzpicture}[binary tree layout]
+    \node{42}
+        child{node{38}
+            child{node{35}
+            	child{node{22}
+            }
+           } 
+        };
+\end{tikzpicture}
+
+We know now that the mininum number of nodes in a tree of height h is equal to $h+1$.\\
+\begin{large}
+Now we demonstrate that the maximum number of nodes in a tree is equal to $2^{h+1} -1$. We'll demonstrate by induction.\\
+\begin{center}
+$h = 0 \Rightarrow 2^{0+1} -1 = 2-1 = 1 \Rightarrow OK$
+
+$ h \geq 0 \Rightarrow nodes(T) = 1 + nodes(left) + nodes(right)$ 
+
+We can consider that both subtree are just a tree of height h-1, so by using the induction hypothesis we continue:\\
+
+$nodes(T) = 1 + 2^h -1 + 2^h - 1 = 2^{h+1} - 1$
+
+So after this demonstration we can infer that:\\ 
+$h+1 \leq n \leq 2^{h+1} - 1 \Rightarrow \log_2(n+1) \leq h \leq n-1 $
+\end{center}
+\end{large}
+
 \end{document}
