@@ -311,6 +311,9 @@ Algorithm Mergesort(Array A[0,..,n-1)
 	A <-- merge(B,C)
 \end{lstlisting}
 \leavevmode \\ \\ \\ \\ \\
+
+\subsection{Amount of comparisons}
+
 The amount of comparisons made are:\\
 \begin{enumerate}
 \item Comparisons of Mergesort(B).
@@ -352,7 +355,7 @@ $$2^3C\left(\cfrac{n}{2^3}\right) + 3n - \sum_{i=0}^{3-1}2^i=$$
 
 $$2^kC\left(\cfrac{n}{2^k}\right) + kn - \sum_{i=0}^{k-1}2^i=$$
 
-We know that $\sum_{i=0}^{k-1}2^i = 2^k - -1$ \\
+We know that $\sum_{i=0}^{k-1}2^i = 2^k  -1$ \\
 Now let's manipulate to the base case:\\
 $\cfrac{n}{2^k} = 1 \Rightarrow n = 2^k \Rightarrow k = \log_2(n)$
 Let's substitute now:\\
@@ -365,5 +368,25 @@ If we still consider n as even, then the equation is:\\
 $$H(n) = 1 + H\left(\cfrac{n}{2}\right)$$
 If we do similar manipulation as made a moment ago we can reach this result:\\
 $$H(n) = \Theta(\log(n))$$
+
+\section{Quick sort}
+The recursive definition of Quick sort is pretty similar to the Merge sort one. This is because both algorithm are using the Divide et impera technique.\\
+The difference between these two sortin algorithm is quite simple. Inside Mergesort the complex part was the final merge, instead here we're going to see that the complex part will be the first one of dividing the problem in more problem of minor size.
+\begin{center}
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+         44 & 55 & 12 & 42 & 94 & 9 & 18 & 64\\
+    };
+\end{tikzpicture}
+
+We choose a pivot element. if $ n \leq pivot$  then those elements go on the left of pivot, otherwise they go on the right.\\
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+         9 & 12 & 18 & 42 & 44 & 55 & 64 & 94\\
+    };
+\end{tikzpicture}
+\end{center}
 
 \end{document}
