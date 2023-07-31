@@ -1,11 +1,13 @@
 \documentclass{article}
 \usepackage{amsmath} % import of math elements
-%\usepackage{mathtools} %import of other math elements
+\usepackage{mathtools} %import of other math elements
 \usepackage{tikz} 
 \usetikzlibrary{shapes,positioning,calc} 
 \usetikzlibrary{positioning,matrix, arrows.meta}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{graphs,graphdrawing,arrows.meta}
+\usegdlibrary{trees}
+\usepackage{forest}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{mathtools}
@@ -552,5 +554,27 @@ Regarding the use of the stack for recursion, we can say that such as merge sort
 In average and best case we have a complexity in space in the order of $\Theta(log(n))$ but when the array is already sorted or almost sorted the amount of stack memory is in the order of $\Theta(n)$.
 \end{large}
 \section{Binary Trees}
-
+\begin{tikzpicture}[binary tree layout]
+    \node{a}
+        child{node{b}
+            child{node{d}
+                child{node{h}}
+                child{node{i}}
+            }
+            child{node{e}
+                child{node{j}}
+                child{node{k}}
+            }
+        }
+        child{node{c}
+            child{node{f}
+                child{node{l}}
+                child{node{m}}
+            }
+            child{node{g}
+                child{node{n}}
+                child{node{o}}
+            }
+        };
+\end{tikzpicture}
 \end{document}
