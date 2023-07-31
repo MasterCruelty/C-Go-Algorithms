@@ -354,10 +354,10 @@ $$2^kC\left(\cfrac{n}{2^k}\right) + kn - \sum_{i=0}^{k-1}2^i=$$
 
 We know that $\sum_{i=0}^{k-1}2^i = 2^k - -1$ \\
 Now let's manipulate to the base case:\\
-$\cfrac{n}{2^k} = 1 \Rightarrow n = 2^k \Rightarrow k = \log_2{n}$
+$\cfrac{n}{2^k} = 1 \Rightarrow n = 2^k \Rightarrow k = \log_2(n)$
 Let's substitute now:\\
 $C(n) = n\cdot C(1) + n\cdot\log_2{n} - n + 1 $
 
-
+We know that $C(1) = 0$, so the amount of comparisons is in the order of $$\Theta(n\cdot\log(n))$$
 
 \end{document}
