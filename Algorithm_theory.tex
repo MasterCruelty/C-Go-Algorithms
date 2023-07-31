@@ -7,6 +7,9 @@
 \usetikzlibrary{decorations.pathreplacing}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -296,5 +299,23 @@ Otherwise:\\
 \end{enumerate}
 
 I'll show here below the pseudocode of the Merge sort, which use our merge algorithm written before. So this algorithm suffers too of the missing optimization in memory, but it will be good enough to do our complexity analysis.
+
+\begin{lstlisting}[caption={\\\textit{Merge algorithm.}}]
+Algorithm Mergesort(Array A[0,..,n-1)
+	If n > 1 then
+		m <-- n / 2
+		B <-- A[o,..,m-1]
+		C <-- A[m,..,n-1]
+		Mergesort(B)
+		Mergesort(C)
+	A <-- merge(B,C)
+\end{lstlisting}
+
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	C\left(\floor*{\cfrac{n}{2}}\right) + 	C\left(\ceil*{\cfrac{n}{2}}\right) + C_{merge}(n) \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
 
 \end{document}
