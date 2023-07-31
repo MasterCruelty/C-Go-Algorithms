@@ -360,4 +360,10 @@ $C(n) = n\cdot C(1) + n\cdot\log_2{n} - n + 1 $
 
 We know that $C(1) = 0$, so the amount of comparisons is in the order of $$\Theta(n\cdot\log(n))$$
 
+What about the recursion stack of memory?\\
+If we still consider n as even, then the equation is:\\
+$$H(n) = 1 + H\left(\cfrac{n}{2}\right)$$
+If we do similar manipulation as made a moment ago we can reach this result:\\
+$$H(n) = \Theta(\log(n))$$
+
 \end{document}
