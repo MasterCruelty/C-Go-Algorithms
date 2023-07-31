@@ -340,6 +340,7 @@ Let's consider our \textbf{n} is even. The equation becomes:\\
 \end{equation*}
 
 By solving this equation we're going to demonstrate the amount of comparisons Mergesort do until we have a sorted array in the end. We'll solve by substitution.\\
+\begin{large}
 
 $C(n) = 2C\left(\cfrac{n}{2}\right) + n-1 =$
 
@@ -359,10 +360,10 @@ We know that $\sum_{i=0}^{k-1}2^i = 2^k  -1$ \\
 Now let's manipulate to the base case:\\
 $\cfrac{n}{2^k} = 1 \Rightarrow n = 2^k \Rightarrow k = \log_2(n)$
 Let's substitute now:\\
-$C(n) = n\cdot C(1) + n\cdot\log_2{n} - n + 1 $
+$C(n) = n\cdot C(1) + n\cdot\log_2{n} - n + 1 $ \\
 
 We know that $C(1) = 0$, so the amount of comparisons is in the order of $$\Theta(n\cdot\log(n))$$
-
+\end{large}
 What about the recursion stack of memory?\\
 If we still consider n as even, then the equation is:\\
 $$H(n) = 1 + H\left(\cfrac{n}{2}\right)$$
@@ -424,6 +425,95 @@ Algorithm Partition(Array A[0,..,n-1],index i,index f) --> index
 	return dx
 \end{lstlisting}
 
-The amount of comparisons is in the order of $O(n)$.
+The amount of comparisons is in the order of $O(n)$.\\
+Now let's see the pseudocode of Quicksort that use partition.\\
+
+\begin{lstlisting}[caption={\\\textit{Quicksort algorithm.}}]
+Algorithm Quicksort(Array A[0,..,n-1])
+	Quicksort(A,0,n)
+\end{lstlisting}
+
+\begin{lstlisting}[caption={\\\textit{Quicksort procedure.}}]
+Procedure Quicksort(Array A[0,..,n-1],index i,index f)
+	if f - i > 1 then
+		m <-- partition(A,i,f)
+		Quicksort(A,i,m)
+		Quicksort(A,m+1,f)
+\end{lstlisting}
+
+We have now to calculate the amount of comparisons we do in this algorithm. To do this let's consider this aspect:\\
+
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+        1 & 2 & 3 & 5 & 8 & 13 & 17 & 20\\
+    };
+
+    \foreach \i [evaluate=\i as \ni using {int(\i)},] in {4}{
+        \pgfmathtruncatemacro{\half}{(\i + 1) / 2}
+        \ifnum \i = 4
+        		\def\arrowlabel{k}
+        	\fi
+        \draw [{Stealth}-, red!70] (A-1-\ni.south) -- ++(-90:5mm) node[below] {\arrowlabel};
+    }
+
+    % Brace for x < A[m]
+    \draw [decorate,decoration={brace,amplitude=7pt,mirror},xshift=-1pt,yshift=-2pt]
+        (A-1-1.south west) -- (A-1-3.south east) node[midway,below=5pt] {${k \ elements}$};
+
+    % Brace for x > A[m]
+    \draw [decorate,decoration={brace,amplitude=7pt,mirror},xshift=-1pt,yshift=-2pt]
+        (A-1-5.south west) -- (A-1-8.south east) node[midway,below=5pt] {${n - k - 1 \ elements}$};
+\end{tikzpicture}
+
+Basically, we have $C(k)$ on the left and $C(n-k-1)$ on the right.\\
+We know also that $C_{part}(n) = n$
+
+So the total amount of comparisons is made of $n + C(k) + C(n-k-1)$
+
+\subsection{Worst case}
+It's easily to see that the worst case happen when $k=0$ or $k=n-1$.
+\begin{large}
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	n + max \left(C_w(k) + C_w(n-k-1) : k =0,..,n-1 \right) \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
+
+$C_w(n) = n + C_w(n-1) = n + n-1 + C_w(n-2) = $
+
+$ n + n-1 + n-2 + C_w(n-3)=\ldots = $
+$$n + n-1 + n-2 + \ldots + 2 + C(1) = \sum_{i=1}^n i = \cfrac{n \cdot (n+1)}{2}  \Rightarrow \Theta(n^2)$$
+\end{large}
+Well well well, we have built this complex algorithm but in the worst case we just found that the amount of comparisons is in the order of $n^2$ such as a Selection sort or a Bubble sort. \\
+There's something to say about this anyway, because this case is very rare and you have to find it manually to make it happens for real.\\
+
+\subsection{Best case}
+The best case happens when the partition is balanced. We just obtain similar result as we did for Mergesort.
+\begin{large}
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	n + min \left(C_w(k) + C_w(n-k-1) : k =0,..,n-1 \right) \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
+
+$C_b(n) \simeq n + 2C_b\left(\cfrac{n}{2}\right) \Rightarrow$
+$C_b(n) \simeq n\cdot \log_2(n)$
+\end{large}
+
+\subsection{Average case}
+The average case is a little bit more difficult to analyze, but don't worry we'll make it too.\\
+\begin{large}
+\begin{equation*}
+	\left\{ \begin{aligned}
+	0 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ n \leq 1 \\
+	\cfrac{\sum_{k=0}^{n-1} C_n + C(k) + C(n-k-1)}{n} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ otherwise
+	\end{aligned} \right.
+\end{equation*}
+
+\end{large}
+
 
 \end{document}
