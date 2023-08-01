@@ -963,8 +963,38 @@ $n-1 \leq m \leq n^2$
 
 So the total amount of time spent is in the order of $\Theta(m\cdot log(n^2)) + \Theta(m\cdot log(n)) \Rightarrow \Theta(m\cdot log(n))$
 
+You can prove that Kruskal finds the minimum spanning tree always even if greedy strategy doesn't find the optimal solution in all problems.
 
 \section{Minimum path problems}
+\begin{large}
+$G=(V,E)$ oriented with $\omega:E\Rightarrow \mathcal{R}$
+
+$\Pi = <v_0,\ldots, v_k>$ a path from $v_0$ to $v_k$
+
+$$\omega(\Pi) = \sum_{i=1}^k \omega(v_i)$$ weight of the path\\
+$\Pi_{x,y}^*$ is the minimum path from x to y with $x,y \in V$ if:\\
+\begin{itemize}
+\item $\Pi_{x,y}^*$ is a path from x to y
+\item $\forall \ \Pi$ from x to y we have that: $\omega(\Pi_{x,y}^*) \leq \omega(\Pi)$
+\end{itemize}
+A property of minimum path:\\
+If $\Pi_{x,y}^*$ is a minimum path from x to y that go through a node \textbf{v} then:\\
+\begin{itemize}
+\item the partial path from x to v is a minimum path from x to v.
+\item the partial path from v to y is a minimum path from v to y.
+\end{itemize}
+$\Pi_{x,v}^* + \Pi_{v,y}^* = \Pi_{x,y}^*$ \leavevmode \\ 
+
+This is called optimality principle.\\
+There are three main type of mininum path problems:
+\begin{enumerate}
+\item Find the minimum path between two nodes. It doesn't exists an algorithm to solve this problem directly.
+\item Find the minimum paths between all the couple of nodes. This is solved by \textbf{Floyd-Warshall} algorithm.
+\item Find the minimum path between a node \textbf{s} and all the others. This is solved by \textbf{Bellman-Ford} and \textbf{Dijkstra} algorithms.
+\end{enumerate}
+
+\end{large}
+
 \subsection{Floyd-Warshall algorithm}
 \subsection{Bellman-Ford algorithm}
 \subsection{Dijkstra algorithm}
