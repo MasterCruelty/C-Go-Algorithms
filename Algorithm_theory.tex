@@ -793,8 +793,60 @@ Procedure createHeap(Tree T)
 
 We have to do call for every node $\Rightarrow$ n calls.\\
 Heapify here costs $\Theta(h')$ comparisons where $h'$ is the height of the subtree in the current iteration, $h' \leq h$.\\
-By knowing this we can do a quick analysis and say that createHeap costs an amount of $\Theta(n\cdot h)=\Theta(n\cdot \log(n))$ comparisons because we know that $h\simeq \log_2(n)$.\\
+By knowing this we can do a quick analysis and say that createHeap costs an amount of $\Theta(n\cdot h)=\Theta(n\cdot \log(n))$ comparisons because we know that $h\simeq \log_2(n)$.
 
 \section{Heap sort}
+We have studied all of these kind of trees just to reach this achievement. We can now use the last type, the heap, for sorting purpose.\\
+The algorithm is called Heap sort and uses the concept of heap to sorting an array without using memory excluding the array in input.\\
+The heap is "already" inside the array and we're gonna see how.\\
 
+\begin{tikzpicture}
+    \matrix (A) [matrix of nodes, nodes={draw, minimum size=8mm},
+    column sep=-\pgflinewidth]{
+        26 & 11 & 19 & 10 & 5 & 6 & 2\\
+    };
+\end{tikzpicture}
+
+Starting from this array, we can build a tree by putting all the elements in "breadth". If you will do an inorder visit, you will get the order of the original array.\\ 
+
+\begin{tikzpicture}[binary tree layout]
+    \node{26}
+        child{node{11}
+            child{node{10}}
+            child{node{5}}
+        }
+        child{node{19}
+            child{node{6}}
+            child{node{2}}
+        };
+\end{tikzpicture}
+We are showing this tree for simplicity, but in the real case you can just use this rule: \\
+The left child of a node is the one of index $2i+1$, while the right one it is the one of index $2i+2$.\\
+How to sort? We start by removing the root and putting at the end of the array. After that, we call Heapify and then we remove again the root until our array is completely sorted.\\
+The amount of comparisons is in the order of $\Theta(n\cdot \log(n))$ because we have to call n times the Heapify which use time in the order of $\Theta(\log(n))$\\
+This algorithm is efficient such as Merge sort and Quick sort for comparisons, but it is the only one that doesn't use additional memory.\\
+
+\subsection{Can we go below $\Theta(n\cdot \log(n))?$}
+Well, if you wanna sort using comparisons, the short answer is \textbf{no}. Let's see why:\\
+There are several sorting algorithm, which each of them use a different strategy to sort the elements.\\
+If you build a decision tree of the comparisons an algorithm do, you will get a different tree for every algorithm.\\
+Now, by knowing that permutation of n elements is equal to $n!$, when we visit this tree to reach the leafs we do an amount of comparisons in the order of $\log_2(n!)$.\\
+\begin{large}
+By using the Stirling approximation we have that $n! \simeq \sqrt{2\pi \cdot n} \cdot \left(\cfrac{n}{e}\right)^n$\\
+So: $\log(n!) \simeq \log\left(\sqrt{2\pi \cdot n} \cdot \left(\cfrac{n}{e}\right)^n\right)$
+Let's do some manipulation and we get:\\
+$\log_2\left(\sqrt{2\pi}\right) + \cfrac{1}{2}\cdot \log_2(n) + n\cdot \log_2(n) - n\cdot \log_2(e) \Rightarrow \Theta(n\cdot log(n))$
+So we have proved that we can't do better if we do comparisons.\\
+Anyway There are sorting algorithm that doesn't use comparisons to sort such as Bucket sort and Radix sort. They cost in time in the order of $\Theta(n)$, but we won't analyze them here.\\
+\end{large}
+\section{Graph}
+\subsection{Tree seen as a Graph}
+\subsection{Spanning Tree}
+\subsection{Greedy}
+\subsection{Kruskal algorithm}
+\subsection{Dynamic programming}
+\section{Minimum path problems}
+\subsection{Floyd-Warshall algorithm}
+\subsection{Bellman-Ford algorithm}
+\subsection{Dijkstra algorithm}
 \end{document}
