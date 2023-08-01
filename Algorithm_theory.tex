@@ -781,5 +781,20 @@ If we consider a max-heap, every key contained in every node is always $\geq$ of
             child{node{37}}
         };
 \end{tikzpicture}
+
+How to build an heap? There's a procedure called Heapify which use time in the order of $\Theta(\log(n))$. It starts from the bottom by fixing every subtree until the entire tree is an heap. We won't see the pseudocode of Heapify, but here below we're gonna see instead the one of createHeap.
+\begin{lstlisting}[caption={\\\textit{createHeap procedure.}}]
+Procedure createHeap(Tree T)
+	h <-- height of T
+	for p <-- h down to 0 do
+		foreach node x of depth p do
+			Heapify(subtree of root x)
+\end{lstlisting}
+
+We have to do call for every node $\Rightarrow$ n calls.\\
+Heapify here costs $\Theta(h')$ comparisons where $h'$ is the height of the subtree in the current iteration, $h' \leq h$.\\
+By knowing this we can do a quick analysis and say that createHeap costs an amount of $\Theta(n\cdot h)=\Theta(n\cdot \log(n))$ comparisons because we know that $h\simeq \log_2(n)$.\\
+
 \section{Heap sort}
+
 \end{document}
