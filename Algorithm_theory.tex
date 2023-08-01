@@ -840,11 +840,130 @@ So we have proved that we can't do better if we do comparisons.\\
 Anyway There are sorting algorithm that doesn't use comparisons to sort such as Bucket sort and Radix sort. They cost in time in the order of $\Theta(n)$, but we won't analyze them here.\\
 \end{large}
 \section{Graph}
+A graph is a mathematical structure that describe relations and connections between couple of objects.\\
+It is defined as $G = (V,E)$ where $V$ is the set of nodes and $E \subseteq VxV$ is the set of links between nodes.\\
+A graph can be oriented or not-oriented. The first one count the direction of the link, the second dosen't.\\
+$(x,y) \in E \Rightarrow$ the link is incident on x and y. If the graph is oriented we say that this link is going out from x and it's entering in y, also y is adjacent to x.\\
+The degree of a node is defined as: $\delta(v)$ the number of incident links on v.\\
+*V=n and *E=m \\
+\begin{large}
+$$\sum_{v \in V} \delta(v) = 2m$$ if the graph is not-oriented.\\
+If oriented: \\
+$\delta_{in}(v)$ is the degree "in"\\
+$\delta_{out}(v)$ is the degree "out"\\
+$\delta(v) = \delta_{in}(v) + \delta_{out}(v)$
+$$\sum_{v \in V} \delta_{in}(v) = \sum_{v \in V} \delta_{out}(v) = m$$
+Every link contribute to the degree "in" of a node and to the degree "out" of another node.\\
+A path from x to y with $x,y \in V$ is:\\
+A sequence $v_0,v_1,..,v_k \in V$ that:\\
+$V_0=x \ \ v_k=y$ and $(v_{i-1},v_i) \in E \ \ i=1,..,k$
+The length of the path is equal to the number of links.\\
+
+\begin{itemize}
+\item y is reachable from x if $\exists$ a path from x to y.
+\item Simple path: there aren't repetitive nodes.
+\item Cycle: a path from x to x(closed path).
+\item Chain: it is equal to the path, but it doesn't matter the direction of the links.
+\item Circuit: it is a chain with $v_0=v_k$.
+\item Connected graph: $\forall v_1,v_2 \in V \exists $chain.
+\item Strongly connected graph: $\forall v_1,v_2 \in V \exists $ path.
+\item hamiltoniam circuit: it is a circuit that go through every node once.
+\item Eulerian circuit: it is a circuit that go through every link once. $\exists$ an Eulerian circuit $\Leftrightarrow \forall v \in V \delta(v)$ is even.
+\end{itemize}
+\end{large}
 \subsection{Tree seen as a Graph}
-\subsection{Spanning Tree}
-\subsection{Greedy}
-\subsection{Kruskal algorithm}
-\subsection{Dynamic programming}
+A tree as a graph is defined as following:\\
+An not-oriented graph, connected and without any cycles.\\
+A forest is a set of trees.\\
+\begin{large}
+$G = (V,E) \ tree \Rightarrow *V= *E - 1$
+Let's prove it by induction on n:\\
+$n=*V$
+
+$n=1 \Rightarrow $ 1 node and 0 links. OK\\
+$n > 1 \Rightarrow$ I choose a node x and I remove it.\\
+I obtain these graphs $G_1=(V_1,E_1),..,G_k(V_k,E_k)$
+
+If $*V_i <n$ then by using induction hypothesis $\Rightarrow *E_i = *V_i -1$
+
+$*V = *V_1 + \ldots + *V_k + 1$ This + 1 is the x removed.\\
+$*E = *E_1 + \ldots + *E_k + k$ This + k are the links incident on x removed.\\
+I use once again the induction hypothesis $\Rightarrow *E= *V_1 -1 + *V_2 -1 * \ldots + *V_k -1 + k = *V -1$
+\end{large}
+We have proved that a graph is a tree if containe the links -1 of the original graph.
+\section{Spanning Tree}
+\begin{large}
+A spanning tree is defined as follows:\\
+$G = (V,E)$ not-oriented and connected, then a spanning tree is $G'=(V',E')$ with $V'=V$ and $E' \subseteq E$.\\
+A mininum spanning tree is $T=(V,E_t)$ that:\\
+we define in before the weight function $\omega: E \Rightarrow \mathcal{R}$
+
+$$\omega(G') = \sum_{e \in E'} \omega(e)$$
+\begin{itemize}
+\item T is a tree with $E_t \subseteq E$
+\item $\forall \ T'=(V,E_t') \ with \ E_t' \subseteq E \omega(T) \leq \omega(T')$
+\end{itemize}
+\end{large} 
+\section{Greedy}
+The greedy technic is used to solve optimization problems that can require exponential time.\\
+We have the P problem and a set C of candidates.\\
+The goal require to find $S^* \subseteq C$ optimal solution.\\
+I start from the \emptyset and step by step I build the feasible solution $S \subseteq C$.\\
+At every step I expand this partial solution already obtained.\\
+The algorithm ends when it is not possible to expand anymore the solution obtained.\\
+Rules of expansion:\\
+\begin{itemize}
+\item \textbf{Feasible solution}: The partial solution must satisfy the constraints.
+\item \textbf{Local optimal solution}: Between the candidates, I choose always the better in that moment.
+\item \textbf{Impossible to go back}: every choice is definitive and it is not possible to go back and think twice of what we have done.
+\end{itemize}
+\subsection{Backpack problem}
+This is a common problem that can be solved by a greedy algorithm.\\
+We have a backpack of height \textbf{h} and \textbf{k} objects $c_1,\ldots,c_k$ all of them with height $h_1,\ldots,h_k$.\\
+The goal is choosing how many objects put in backpack without exceeding the height of the backpack.\\
+\textbf{Feasible solution}: Any $S \subseteq \left(c_1,\ldots,c_k\right)$ that:\\
+$f(S) \leq h$ with $$f(S) = \sum_{c_i \in S} h_i$$
+\textbf{Optimal solution}: Any $S^* \subseteq \left(c_1,\ldots,c_k\right)$ that: $f(S^*) \geq f(S) \forall S$
+
+In this problem, the greedy algorithm doesn't find always the correct solution. There are a few cases where the solution found isn't the real optimal one.
+\section{Kruskal algorithm}
+This algorithm use the greedy strategy to find the minimum spanning tree starting from a weighted connected graph.\\
+Kruskal starts by sorting the weight of all links. After that I have a forest consisting of all nodes alone without links.\\
+I slide the list of links and I add the current link to the graph if and only if it doesn't create a cycle between nodes already linked.\\
+Here below I let you read the pseudocode:\\
+\begin{lstlisting}[caption={\\\textit{Kruskal algorithm.}}]
+Algorithm Kruskal(Graph G=(V,E,w)) --> tree
+	Sort E using a sorting algorithm
+	T <--(V,empty)
+	foreach v in V do
+		makeset(v)
+	foreach (x,y) in E sorted do
+		Tx <-- find(x)
+		Ty <-- find(y)
+		if Tx != Ty then
+			union(Tx,Ty)
+			add to T the link(x,y)
+	return T
+\end{lstlisting}
+This algorithm is implemented by using the concept of partition with union/find algorithms.\\
+These algorithms helps us knowing when two nodes are already linked or not.\\
+The implementation of the graph is a simple link list.\\
+Complexity:\\
+\begin{itemize}
+\item Suppose heapsort for sorting $\Rightarrow \Theta(n\cdot \log(n))$
+\item first foreach does n makeset which cost $O(1)$ each other $\Rightarrow O(n)$
+\item second foreach is doing m iterations:
+\begin{enumerate}
+\item it does 2m find which cost $\Theta(log(n))$ each one by using QuickUnion balanced $\Rightarrow \Theta(m\cdot \log(n))$
+\item it does also n-1 union because a tree has n-1 links starting from a graph. Each union costs $O(1) \Rightarrow \Theta(n)$ 
+\end{enumerate}
+\end{itemize}
+If we consider that the graph is connected we have that:\\
+$n-1 \leq m \leq n^2$
+
+So the total amount of time spent is in the order of $\Theta(m\cdot log(n^2)) + \Theta(m\cdot log(n)) \Rightarrow \Theta(m\cdot log(n))$
+
+
 \section{Minimum path problems}
 \subsection{Floyd-Warshall algorithm}
 \subsection{Bellman-Ford algorithm}
